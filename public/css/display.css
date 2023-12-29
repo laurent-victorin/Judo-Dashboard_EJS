@@ -1,0 +1,143 @@
+/* display.css */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  color: #111;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  height: 100vh;
+}
+
+#display-container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  /* padding: 10px; */
+}
+
+.info-container{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: space-around;
+  width: 100%;
+  height: 25vh;
+  background-color: rgb(193, 193, 193);
+}
+
+.info-red-container{
+  text-align: right;
+  padding-right: 50px;
+}
+
+.judoka-display{
+  width: 100%;
+  padding: 0px 25px;
+}
+
+#white-name-display, #red-name-display{
+  font-size: 80px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+#white-club-display,
+#red-club-display {
+  font-size: 50px;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-style: italic;
+  transform: translateY(-30px);
+}
+
+.osaekomi-timer-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: space-around;
+  width: 100%;
+  height: 20vh;
+}
+
+.timer-display {
+  font-size: 200px;
+  font-weight: 600;
+}
+
+.timer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress-bar-container {
+  width: 100%;
+  /* ou une largeur spécifique */
+  background-color: #eee;
+  /* couleur de fond de la barre de progression */
+}
+
+.progress-bar {
+  height: 20px;
+  /* ou une hauteur spécifique */
+  background-color: #4caf50;
+  /* couleur de la barre de progression */
+  width: 100%;
+  /* Démarre pleine, sera ajustée dynamiquement */
+}
+
+.red{
+  background-color: rgb(247, 43, 43);
+  color: white;
+}
+
+.white {
+  background-color: rgb(255, 255, 255);
+}
+/*------------------------------------------*/
+.scores-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: space-around;
+    width: 100%;
+    height: 50vh;
+}
+
+.scores-white-container, .scores-red-container{
+  display: flex;
+  flex-direction: column;
+}
+
+.scores-white-box, .scores-red-box{
+  height: 50vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 5px;
+  align-items: center;
+}
+
+.ippon-white-box, 
+.ippon-red-box, 
+.wazari-white-box, 
+.wazari-red-box,
+.red-white-box,
+.kinza-white-box,
+.kinza-red-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  font-size: 50px;
+  font-weight: 600;
+}
+
+#display-white-ippon,
+#display-red-ippon,
+#display-white-wazari,
+#display-red-wazari,
+#display-white-kinza,
+#display-red-kinza{
+  font-size: 300px;
+  font-weight: 600;
+  text-shadow: 5px 5px 5px rgba(0, 0, 0, .3);
+}

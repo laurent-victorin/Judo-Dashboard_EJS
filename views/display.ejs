@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tableau de Score Judo</title>
+    <link rel="stylesheet" href="/css/display.css" />
+    <!-- Assurez-vous que le chemin est correct -->
+  </head>
+  <body>
+    <div id="display-container">
+      <div class="info-container">
+        <div class="info-white-container white">
+          <div id="white-info" class="judoka-display">
+            <h2 id="white-name-display">Judoka Blanc</h2>
+            <h3 id="white-club-display">Club :</h3>
+          </div>
+        </div>
+
+        <div class="info-red-container red">
+          <div id="red-info" class="judoka-display">
+            <h2 id="red-name-display">Judoka Rouge</h2>
+            <h3 id="red-club-display">Club :</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="scores-container">
+        <div class="scores-white-container white">
+          <div class="scores-white-box">
+            <div class="ippon-white-box">
+              <span id="display-white-ippon">0</span>
+              <span>Ippon</span>
+            </div>
+            <div class="wazari-white-box">
+              <span id="display-white-wazari">0</span>
+              <span>Waza-Ari</span>
+            </div>
+            <div class="kinza-white-box">
+              <span id="display-white-kinza">0</span>
+              <span>Kinza</span>
+            </div>
+          </div>
+          <div class="penalties-white-box">
+            <span>SHIDO</span>
+          </div>
+        </div>
+        <div class="scores-red-container red">
+          <div class="scores-red-box">
+            <div class="ippon-red-box">
+              <span id="display-red-ippon">0</span>
+              <span>Ippon</span>
+            </div>
+            <div class="wazari-red-box">
+              <span id="display-red-wazari">0</span>
+              <span>Waza-Ari</span>
+            </div>
+            <div class="kinza-red-box">
+              <span id="display-red-kinza">0</span>
+              <span>Kinza</span>
+            </div>
+          </div>
+          <div class="penalties-red-box">
+            <span>SHIDO</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="osaekomi-timer-container">
+        <div class="osaekomi-white-container white"></div>
+        <div class="timer-container">
+          <div id="main-timer" class="timer-display">3:00</div>
+          <div class="progress-bar-container">
+            <div
+              id="timer-progress"
+              class="progress-bar"
+              style="width: 100%"
+            ></div>
+          </div>
+        </div>
+        <div class="osaekomi-red-container red"></div>
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/display.js"></script>
+    <script>
+      const socket = io();
+
+      // Écouter les événements pour les noms et les clubs
+      socket.on("update names", function (data) {
+        document.getElementById("white-name-display").textContent = data.white;
+        document.getElementById("red-name-display").textContent = data.red;
+      });
+
+      io.on("connection", function (socket) {
+        // ... autres gestionnaires d'événements ...
+
+        socket.on("reset display", function () {
+          // Retransmettre cet événement à tous les clients
+          io.emit("reset display");
+        });
+      });
+
+      // Ajoutez des écouteurs pour les scores, les pénalités, le chronomètre, etc.
+      // Exemple :
+      // socket.on('update score', function(data) {
+      //   // Mettre à jour les scores
+      // });
+
+      // socket.on('update timer', function(time) {
+      //   // Mettre à jour le chronomètre principal
+      // });
+
+      // Assurez-vous de créer des écouteurs pour chaque type de données que vous souhaitez afficher
+    </script>
+  </body>
+</html>

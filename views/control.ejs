@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tableau de bord de judo</title>
+    <link rel="stylesheet" href="/css/control.css" />
+  </head>
+  <body>
+    <!-- Durée des combats-->
+    <div class="timer-controls">
+      <label for="time-select">Durée du combat :</label>
+      <select id="time-select">
+        <option value="90">Mini-Poussins, Poussins : 1 minute 30sec</option>
+        <option value="120">Benjamins : 2 minutes</option>
+        <option value="180" selected>Minimes à Séniors : 3 minutes</option>
+        <option value="240">4 minutes</option>
+        <option value="300">5 minutes</option>
+      </select>
+      <button id="set-time">Valider</button>
+    </div>
+
+    <!-- Chronomètre Principal-->
+    <div class="timer">
+      <h1>Chronomètre</h1>
+      <div class="time">2:49</div>
+      <button id="start">Hajime</button>
+      <button id="reset">Réinitialiser</button>
+    </div>
+
+    <!-- Nom des judokas-->
+    <div class="name-container">
+      <div class="judoka-info" id="white-judoka-info">
+        <h3>Judoka Blanc</h3>
+        <input type="text" id="white-name" placeholder="Nom du Judoka Blanc" />
+        <input type="text" id="white-club" placeholder="Club du Judoka Blanc" />
+      </div>
+      <div class="judoka-info" id="red-judoka-info">
+        <h3>Judoka Rouge</h3>
+        <input type="text" id="red-name" placeholder="Nom du Judoka Rouge" />
+        <input type="text" id="red-club" placeholder="Club du Judoka Rouge" />
+      </div>
+    </div>
+
+    <div class="scores-container">
+      <div class="score" id="white">
+        <h2>Judoka Blanc</h2>
+        <div class="points">
+          <span>Ippon: <span id="white-ippon">0</span></span>
+          <button onclick="modifyScore('white', 'ippon', 1)">+</button>
+          <button onclick="modifyScore('white', 'ippon', -1)">-</button>
+          <span>Waza-Ari: <span id="white-wazari">0</span></span>
+          <button onclick="modifyScore('white', 'wazari', 1)">+</button>
+          <button onclick="modifyScore('white', 'wazari', -1)">-</button>
+          <span>Kinza: <span id="white-kinza">0</span></span>
+          <button onclick="modifyScore('white', 'kinza', 1)">+</button>
+          <button onclick="modifyScore('white', 'kinza', -1)">-</button>
+        </div>
+      </div>
+
+      <div class="score" id="red">
+        <h2>Judoka Rouge</h2>
+        <div class="points">
+          <span>Ippon: <span id="red-ippon">0</span></span>
+          <button onclick="modifyScore('red', 'ippon', 1)">+</button>
+          <button onclick="modifyScore('red', 'ippon', -1)">-</button>
+          <span>Waza-Ari: <span id="red-wazari">0</span></span>
+          <button onclick="modifyScore('red', 'wazari', 1)">+</button>
+          <button onclick="modifyScore('red', 'wazari', -1)">-</button>
+          <span>Kinza: <span id="red-kinza">0</span></span>
+          <button onclick="modifyScore('red', 'kinza', 1)">+</button>
+          <button onclick="modifyScore('red', 'kinza', -1)">-</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exemple pour le joueur blanc -->
+    <div class="penalties-container">
+      <div class="penalties" id="white-penalties">
+        <h3>Pénalités Joueur Blanc</h3>
+        <div class="shido-container">
+          <button onclick="modifyShido('white', 1)">+</button>
+          <button onclick="modifyShido('white', -1)">-</button>
+          <div id="white-shido-icons">
+            <!-- Les icônes de Shido seront ajoutées ici par JavaScript -->
+          </div>
+        </div>
+      </div>
+      <div class="penalties" id="red-penalties">
+        <h3>Pénalités Joueur Rouge</h3>
+        <div class="shido-container">
+          <button onclick="modifyShido('red', 1)">+</button>
+          <button onclick="modifyShido('red', -1)">-</button>
+          <div id="red-shido-icons">
+            <!-- Les icônes de Shido seront ajoutées ici par JavaScript -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Temps immobilisation -->
+    <!-- Exemple pour le joueur blanc -->
+
+    <div class="osaekomi-container">
+      <div class="immobilization" id="white-immobilization">
+        <h3>Immobilisation Joueur Blanc</h3>
+        <div class="time-display" id="white-osae-komi-time">0s</div>
+        <button id="white-osae-komi">Osae-Komi</button>
+        <button id="white-toketa" style="display: none">Toketa</button>
+        <button id="white-reset-osae-komi">Réinitialiser</button>
+      </div>
+
+      <div class="immobilization" id="red-immobilization">
+        <h3>Immobilisation Joueur Rouge</h3>
+        <div class="time-display" id="red-osae-komi-time">0s</div>
+        <button id="red-osae-komi">Osae-Komi</button>
+        <button id="red-toketa" style="display: none">Toketa</button>
+        <button id="red-reset-osae-komi">Réinitialiser</button>
+      </div>
+    </div>
+
+    <!-- Nouveau Combat -->
+    <button id="new-match">Nouveau Combat</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/script.js"></script>
+  </body>
+</html>

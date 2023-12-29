@@ -79,7 +79,7 @@ body {
 }
 
 .timer-progress-bar {
-  height: 20px;
+  height: 30px;
   /* ou une hauteur spécifique */
   background-color: #4caf50;
   /* couleur de la barre de progression */
@@ -190,7 +190,7 @@ body {
 }
 
 .progress-bar {
-  height: 20px;
+  height: 30px;
   /* Hauteur de la barre */
   width: 0%;
   /* Largeur initiale */
@@ -200,12 +200,36 @@ body {
   /* Transition douce */
 }
 
-/* Styles supplémentaires pour les containers d'immobilisation */
-.osaekomi-timer-container {
-  /* Styles pour le conteneur des timers d'immobilisation */
+.osaekomi-white-container, .osaekomi-red-container{
+  width: 100%;
+  height: 100%;
+  background-color: rgb(169, 169, 169);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
-.osaekomi-white-container,
-.osaekomi-red-container {
-  /* Styles spécifiques pour les conteneurs blanc et rouge */
+.osaekomi-title{
+  font-size: 40px;
+  font-weight: 600;
+  color: #111;
+  padding: 20px 20px;
+  transform: translateY(20px);
+}
+
+#osaekomi-white-timer, #osaekomi-red-timer{
+  font-size: 120px;
+  font-weight: 600;
+  text-align: center;
+  padding-right: 50px;
+  color: #111;
+}
+
+#osaekomi-white-progress, #osaekomi-red-progress{
+    height: 30px;
+      /* ou une hauteur spécifique */
+      background-color: #4caf50;
+      /* couleur de la barre de progression */
+      width: 100%;
+      /* Démarre pleine, sera ajustée dynamiquement */
 }

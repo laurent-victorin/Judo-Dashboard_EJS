@@ -1,15 +1,5 @@
 const socket = io(); // Assurez-vous d'avoir connecté Socket.IO
 
-function modifyScore(player, pointType, amount) {
-  const scoreSpan = document.getElementById(`${player}-${pointType}`);
-  let currentScore = parseInt(scoreSpan.textContent);
-  currentScore += amount;
-  if (currentScore < 0) currentScore = 0; // Prevent negative scores
-  scoreSpan.textContent = currentScore;
-  // Envoyer le score mis à jour au serveur
-  socket.emit("score update", { player, pointType, score: currentScore });
-}
-
 // Variables pour gérer le chronomètre
 let timer;
 let isTimerRunning = false;
@@ -22,6 +12,58 @@ const hajimeButton = document.getElementById("start");
 const resetButton = document.getElementById("reset");
 const timeSelect = document.getElementById("time-select");
 const setTimeButton = document.getElementById("set-time");
+
+// Ajouter des écouteurs d'événements pour les boutons d'immobilisation
+document
+  .getElementById("white-osae-komi")
+  .addEventListener("click", function () {
+    startImmobilization("white");
+  });
+document.getElementById("white-toketa").addEventListener("click", function () {
+  stopImmobilization("white");
+});
+document
+  .getElementById("white-reset-osae-komi")
+  .addEventListener("click", function () {
+    resetImmobilization("white");
+  });
+
+document.getElementById("red-osae-komi").addEventListener("click", function () {
+  startImmobilization("red");
+});
+document.getElementById("red-toketa").addEventListener("click", function () {
+  stopImmobilization("red");
+});
+document
+  .getElementById("red-reset-osae-komi")
+  .addEventListener("click", function () {
+    resetImmobilization("red");
+  });
+
+// Ajout des écouteurs d'événements
+hajimeButton.addEventListener("click", startTimer);
+resetButton.addEventListener("click", resetTimer);
+setTimeButton.addEventListener("click", setTime);
+
+// Initialise le chronomètre avec la durée par défaut au chargement
+document.addEventListener("DOMContentLoaded", resetTimer);
+
+// Initialisez l'affichage des Shido au chargement pour chaque joueur
+document.addEventListener("DOMContentLoaded", function () {
+  updateShidoDisplay("white");
+  updateShidoDisplay("red");
+});
+
+/*-MODIFY SCORE----------------------------------------------------------------------*/
+function modifyScore(player, pointType, amount) {
+  const scoreSpan = document.getElementById(`${player}-${pointType}`);
+  let currentScore = parseInt(scoreSpan.textContent);
+  currentScore += amount;
+  if (currentScore < 0) currentScore = 0; // Prevent negative scores
+  scoreSpan.textContent = currentScore;
+  // Envoyer le score mis à jour au serveur
+  socket.emit("score update", { player, pointType, score: currentScore });
+}
 
 // Mise à jour de l'affichage du chronomètre
 function updateTimerDisplay() {
@@ -81,14 +123,6 @@ function setTime() {
   }
 }
 
-// Ajout des écouteurs d'événements
-hajimeButton.addEventListener("click", startTimer);
-resetButton.addEventListener("click", resetTimer);
-setTimeButton.addEventListener("click", setTime);
-
-// Initialise le chronomètre avec la durée par défaut au chargement
-document.addEventListener("DOMContentLoaded", resetTimer);
-
 // SHIDO //
 // Ajoutez ces variables globales pour suivre le nombre de Shido pour chaque joueur
 let shidoCount = {
@@ -129,127 +163,119 @@ function updateShidoDisplay(playerColor) {
   }
 }
 
-// Initialisez l'affichage des Shido au chargement pour chaque joueur
-document.addEventListener("DOMContentLoaded", function () {
-  updateShidoDisplay("white");
-  updateShidoDisplay("red");
-});
-
 // Immobilistations
 // Ajoutez ces variables globales pour chaque joueur
 let immobilizationTimers = {
-  white: { timer: null, time: 0, running: false },
-  red: { timer: null, time: 0, running: false },
+  white: { time: 0, running: false },
+  red: { time: 0, running: false },
 };
 
+// Function to start immobilization
 function startImmobilization(playerColor) {
   if (!immobilizationTimers[playerColor].running) {
     immobilizationTimers[playerColor].running = true;
-    const osaeKomiBtn = document.getElementById(`${playerColor}-osae-komi`);
-    const toketaBtn = document.getElementById(`${playerColor}-toketa`);
-    const timeDisplay = document.getElementById(
-      `${playerColor}-osae-komi-time`
-    );
+    immobilizationTimers[playerColor].time = 0; // Reset time to 0
 
-    osaeKomiBtn.style.display = "none";
-    toketaBtn.style.display = "inline";
-
-    immobilizationTimers[playerColor].timer = setInterval(function () {
-      immobilizationTimers[playerColor].time++;
-      timeDisplay.textContent = immobilizationTimers[playerColor].time + "s";
-
-      // Change background color at 10 seconds
-      if (immobilizationTimers[playerColor].time === 10) {
-        timeDisplay.style.backgroundColor = "yellow";
+    immobilizationTimers[playerColor].interval = setInterval(() => {
+      if(immobilizationTimers[playerColor].time < 20) {
+        immobilizationTimers[playerColor].time++;
+        updateImmobilizationDisplay(playerColor, immobilizationTimers[playerColor].time);
+        socket.emit("update osaekomi", { player: playerColor, time: immobilizationTimers[playerColor].time });
+      } else {
+        stopImmobilization(playerColor);  // Stop when it reaches 20 seconds
       }
-      // Change background color at 20 seconds
-      else if (immobilizationTimers[playerColor].time === 20) {
-        timeDisplay.style.backgroundColor = "green";
-        stopImmobilization(playerColor); // Stop timer at 20 seconds
-      }
-    }, 1000);
+    }, 1000); // Updates every second
   }
 }
 
+// Function to stop immobilization
 function stopImmobilization(playerColor) {
-  clearInterval(immobilizationTimers[playerColor].timer);
-  immobilizationTimers[playerColor].running = false;
-  immobilizationTimers[playerColor].timer = null;
-
-  const osaeKomiBtn = document.getElementById(`${playerColor}-osae-komi`);
-  const toketaBtn = document.getElementById(`${playerColor}-toketa`);
-  const timeDisplay = document.getElementById(`${playerColor}-osae-komi-time`);
-
-  osaeKomiBtn.style.display = "inline";
-  toketaBtn.style.display = "none";
-  timeDisplay.style.backgroundColor = ""; // Reset background color
+  if (immobilizationTimers[playerColor].running) {
+    clearInterval(immobilizationTimers[playerColor].interval);
+    immobilizationTimers[playerColor].running = false;
+    socket.emit("stop osaekomi", { player: playerColor });
+  }
 }
 
+// Function to reset immobilization
 function resetImmobilization(playerColor) {
-  stopImmobilization(playerColor);
-  immobilizationTimers[playerColor].time = 0;
-  const timeDisplay = document.getElementById(`${playerColor}-osae-komi-time`);
-  timeDisplay.textContent = "0s";
-  timeDisplay.style.backgroundColor = ""; // Reset background color
+  stopImmobilization(playerColor); // Stop if running
+  immobilizationTimers[playerColor].time = 0; // Reset time
+  updateImmobilizationDisplay(playerColor, 0); // Update UI to 0s
+  socket.emit("reset osaekomi", { player: playerColor });
 }
 
-// Ajouter des écouteurs d'événements pour les boutons d'immobilisation
-document
-  .getElementById("white-osae-komi")
-  .addEventListener("click", function () {
-    startImmobilization("white");
-  });
-document.getElementById("white-toketa").addEventListener("click", function () {
-  stopImmobilization("white");
-});
-document
-  .getElementById("white-reset-osae-komi")
-  .addEventListener("click", function () {
-    resetImmobilization("white");
-  });
+// Update the immobilization display
+function updateImmobilizationDisplay(playerColor, time) {
+  const timerElement = document.getElementById(`osaekomi-${playerColor}-timer`);
+  const progressBar = document.getElementById(
+    `osaekomi-${playerColor}-progress`
+  );
+  if (timerElement && progressBar) {
+    timerElement.textContent = `${time}s`;
 
-document.getElementById("red-osae-komi").addEventListener("click", function () {
-  startImmobilization("red");
-});
-document.getElementById("red-toketa").addEventListener("click", function () {
-  stopImmobilization("red");
-});
-document
-  .getElementById("red-reset-osae-komi")
-  .addEventListener("click", function () {
-    resetImmobilization("red");
+    // Calculate and update the progress bar
+    const percentage = (time / 20) * 100; // Assuming 20s is the maximum
+    progressBar.style.width = `${percentage}%`;
+
+    // Update color based on the time
+    if (time < 10) {
+      progressBar.style.backgroundColor = "white";
+    } else if (time < 20) {
+      progressBar.style.backgroundColor = "yellow";
+    } else {
+      progressBar.style.backgroundColor = "green";
+    }
+  }
+  // Emit an event with the current time for the specific player
+  socket.emit("update osaekomi", {
+    player: playerColor,
+    time: immobilizationTimers[playerColor].time,
   });
+}
 
 // Nouveau Combat //
 // Fonction pour réinitialiser tous les chronomètres et scores
 function resetAll() {
   // Réinitialiser les champs d'entrée pour les noms et les clubs
-  document.getElementById("white-name").value = "";
-  document.getElementById("red-name").value = "";
-  document.getElementById("white-club").value = "";
-  document.getElementById("red-club").value = "";
-  // Emit an event to the server to reset display as well
-  socket.emit("reset display");
-  // Assurez-vous que cette fonction est appelée lorsque le bouton est cliqué
-  document.getElementById("new-match").addEventListener("click", resetAll);
+  document.getElementById("white-name").value = "Judoka Blanc";
+  document.getElementById("red-name").value = "Judoka Rouge";
+  document.getElementById("white-club").value = "Club";
+  document.getElementById("red-club").value = "Club";
 
-  // Réinitialiser les scores pour chaque joueur
+  // Réinitialiser les scores, Shido, et immobilisations pour chaque joueur
   ["white", "red"].forEach((playerColor) => {
-    // Réinitialiser les scores (Ippon, Waza-ari, etc.)
     resetScores(playerColor);
-    // Réinitialiser les Shido
     shidoCount[playerColor] = 0;
     updateShidoDisplay(playerColor);
-    // Réinitialiser l'immobilisation
     resetImmobilization(playerColor);
   });
 
   // Réinitialiser le chronomètre principal
   resetTimer();
+
+  // Function to reset scores of each player
+  function resetScores(playerColor) {
+    const scoreTypes = ["ippon", "wazari", "kinza"]; // Add other score types if any
+    scoreTypes.forEach((type) => {
+      const scoreElement = document.getElementById(`${playerColor}-${type}`);
+      if (scoreElement) scoreElement.textContent = "0";
+    });
+  }
+
+  // Assurez-vous que cette fonction est appelée lorsque le bouton est cliqué
+  document.getElementById("new-match").addEventListener("click", resetAll);
+
   // Remettre la durée par défaut (3 minutes par exemple)
-  selectedTime = 180;
+  // selectedTime = 180;
+  selectedTime = timeSelect.value;
   timeSelect.value = selectedTime.toString();
   updateTimerDisplay();
+
+  // Emit an event to the server to reset display as well
+  socket.emit("reset display");
+
+  socket.emit("reset all");
 }
 
 // Supposons que vous ayez une fonction de réinitialisation des scores comme celle-ci

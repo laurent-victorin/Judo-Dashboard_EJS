@@ -69,6 +69,7 @@
 
       <div class="osaekomi-timer-container">
         <div class="osaekomi-white-container white">
+          <span class="osaekomi-title">Osae-Komi</span>
           <div id="osaekomi-white-timer">0s</div>
           <div id="osaekomi-white-progress" class="progress-bar"></div>
         </div>
@@ -83,6 +84,7 @@
           </div>
         </div>
         <div class="osaekomi-red-container red">
+          <span class="osaekomi-title">Osae-Komi</span>
           <div id="osaekomi-red-timer">0s</div>
           <div id="osaekomi-red-progress" class="progress-bar"></div>
         </div>
@@ -91,35 +93,5 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/display.js"></script>
-    <script>
-      const socket = io();
-
-      // Écouter les événements pour les noms et les clubs
-      socket.on("update names", function (data) {
-        document.getElementById("white-name-display").textContent = data.white;
-        document.getElementById("red-name-display").textContent = data.red;
-      });
-
-      io.on("connection", function (socket) {
-        // ... autres gestionnaires d'événements ...
-
-        socket.on("reset display", function () {
-          // Retransmettre cet événement à tous les clients
-          io.emit("reset display");
-        });
-      });
-
-      // Ajoutez des écouteurs pour les scores, les pénalités, le chronomètre, etc.
-      // Exemple :
-      // socket.on('update score', function(data) {
-      //   // Mettre à jour les scores
-      // });
-
-      // socket.on('update timer', function(time) {
-      //   // Mettre à jour le chronomètre principal
-      // });
-
-      // Assurez-vous de créer des écouteurs pour chaque type de données que vous souhaitez afficher
-    </script>
   </body>
 </html>

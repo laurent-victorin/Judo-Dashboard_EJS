@@ -2,7 +2,7 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <title>Tableau de bord de judo</title>
+    <title>Tableau de Contrôle</title>
     <link rel="stylesheet" href="/css/control.css" />
   </head>
   <body>
@@ -43,14 +43,16 @@
 
     <div class="scores-container">
       <div class="score" id="white">
-        <h2>Judoka Blanc</h2>
+        <h2>Score Blanc</h2>
         <div class="points">
           <span>Ippon: <span id="white-ippon">0</span></span>
           <button onclick="modifyScore('white', 'ippon', 1)">+</button>
           <button onclick="modifyScore('white', 'ippon', -1)">-</button>
+          <hr />
           <span>Waza-Ari: <span id="white-wazari">0</span></span>
           <button onclick="modifyScore('white', 'wazari', 1)">+</button>
           <button onclick="modifyScore('white', 'wazari', -1)">-</button>
+          <hr />
           <span>Kinza: <span id="white-kinza">0</span></span>
           <button onclick="modifyScore('white', 'kinza', 1)">+</button>
           <button onclick="modifyScore('white', 'kinza', -1)">-</button>
@@ -58,14 +60,16 @@
       </div>
 
       <div class="score" id="red">
-        <h2>Judoka Rouge</h2>
+        <h2>Score Rouge</h2>
         <div class="points">
           <span>Ippon: <span id="red-ippon">0</span></span>
           <button onclick="modifyScore('red', 'ippon', 1)">+</button>
           <button onclick="modifyScore('red', 'ippon', -1)">-</button>
+          <hr />
           <span>Waza-Ari: <span id="red-wazari">0</span></span>
           <button onclick="modifyScore('red', 'wazari', 1)">+</button>
           <button onclick="modifyScore('red', 'wazari', -1)">-</button>
+          <hr />
           <span>Kinza: <span id="red-kinza">0</span></span>
           <button onclick="modifyScore('red', 'kinza', 1)">+</button>
           <button onclick="modifyScore('red', 'kinza', -1)">-</button>
@@ -76,7 +80,7 @@
     <!-- Exemple pour le joueur blanc -->
     <div class="penalties-container">
       <div class="penalties" id="white-penalties">
-        <h3>Pénalités Joueur Blanc</h3>
+        <h3>Pénalités Blanc</h3>
         <div class="shido-container">
           <button onclick="modifyShido('white', 1)">+</button>
           <button onclick="modifyShido('white', -1)">-</button>
@@ -86,7 +90,7 @@
         </div>
       </div>
       <div class="penalties" id="red-penalties">
-        <h3>Pénalités Joueur Rouge</h3>
+        <h3>Pénalités Rouge</h3>
         <div class="shido-container">
           <button onclick="modifyShido('red', 1)">+</button>
           <button onclick="modifyShido('red', -1)">-</button>
@@ -102,19 +106,34 @@
 
     <div class="osaekomi-container">
       <div class="immobilization" id="white-immobilization">
-        <h3>Immobilisation Joueur Blanc</h3>
+        <h3>Immobilisations Blanc</h3>
         <div class="time-display" id="white-osae-komi-time">0s</div>
-        <button id="white-osae-komi">Osae-Komi</button>
-        <button id="white-toketa" style="display: none">Toketa</button>
-        <button id="white-reset-osae-komi">Réinitialiser</button>
+        <button onclick="startImmobilization('white')" id="white-osae-komi">
+          Osae-Komi
+        </button>
+        <button onclick="stopImmobilization('white')" id="white-toketa">
+          Toketa
+        </button>
+        <button
+          onclick="resetImmobilization('white')"
+          id="white-reset-osae-komi"
+        >
+          Réinitialiser
+        </button>
       </div>
 
       <div class="immobilization" id="red-immobilization">
-        <h3>Immobilisation Joueur Rouge</h3>
+        <h3>Immobilisations Rouge</h3>
         <div class="time-display" id="red-osae-komi-time">0s</div>
-        <button id="red-osae-komi">Osae-Komi</button>
-        <button id="red-toketa" style="display: none">Toketa</button>
-        <button id="red-reset-osae-komi">Réinitialiser</button>
+        <button onclick="startImmobilization('red')" id="red-osae-komi">
+          Osae-Komi
+        </button>
+        <button onclick="stopImmobilization('red')" id="red-toketa">
+          Toketa
+        </button>
+        <button onclick="resetImmobilization('red')" id="red-reset-osae-komi">
+          Réinitialiser
+        </button>
       </div>
     </div>
 

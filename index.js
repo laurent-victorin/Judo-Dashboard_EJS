@@ -21,8 +21,6 @@ app.get("/display", (req, res) => {
 
 // Handle socket connections
 io.on("connection", function (socket) {
-  console.log("New client connected");
-
   // Handle updating names
   socket.on("update names", function (data) {
     io.emit("update names", data);
@@ -49,24 +47,20 @@ io.on("connection", function (socket) {
   });
 
   // Handle osaekomi timer updates
-  // You'll need to implement the start, stop, and reset logic based on your application's needs
-  socket.on("start osaekomi", function (data) {
-    // Start the osaekomi timer logic here
-    // and regularly emit 'update osaekomi' events with the time and player
+  socket.on("update osaekomi", function (data) {
+    io.emit("update osaekomi", data);
   });
 
-  socket.on("stop osaekomi", function (data) {
-    // Stop the osaekomi timer logic here
-  });
+  // Écouter l'événement 'reset all' pour réinitialiser l'affichage
+  socket.on("reset all", function () {
+    // Réinitialiser l'état du serveur si nécessaire
 
-  socket.on("reset osaekomi", function (data) {
-    // Reset the osaekomi timer logic here
+    // Envoyer un événement pour réinitialiser l'affichage sur tous les clients
+    io.emit("reset display");
   });
 
   // Handle disconnect
-  socket.on("disconnect", () => {
-    console.log("Client disconnected");
-  });
+  socket.on("disconnect", () => {});
 });
 
 server.listen(3000, () => {

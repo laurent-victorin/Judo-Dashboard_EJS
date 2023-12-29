@@ -51,8 +51,18 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Écouter les événements pour les pénalités (Shido)
-  socket.on("update penalties", function (penalties) {
-    // Mettre à jour les pénalités ici
+  socket.on("shido update", function (data) {
+    const { player, shido } = data;
+    const shidoContainer = document.getElementById(`display-${player}-shido`);
+    shidoContainer.innerHTML = ""; // Effacer les shidos existants
+
+    // Ajouter des <span> pour chaque shido
+    for (let i = 0; i < shido; i++) {
+      const shidoSpan = document.createElement("span");
+      shidoSpan.classList.add("shido");
+      shidoSpan.innerHTML = "S"; // Apparaître le S
+      shidoContainer.appendChild(shidoSpan);
+    }
   });
 
   // Écouter les événements pour l'immobilisation (Osae-Komi)

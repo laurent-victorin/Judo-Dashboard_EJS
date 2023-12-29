@@ -107,6 +107,11 @@ function modifyShido(playerColor, change) {
   }
 
   updateShidoDisplay(playerColor);
+  // Émettre un événement avec l'état actuel des Shido
+  socket.emit("shido update", {
+    player: playerColor,
+    shido: shidoCount[playerColor],
+  });
 }
 
 function updateShidoDisplay(playerColor) {

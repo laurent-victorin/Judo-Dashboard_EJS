@@ -24,35 +24,43 @@ io.on("connection", function (socket) {
   socket.on("update names", function (data) {
     // Envoie les noms mis à jour à tous les clients, y compris display.ejs
     io.emit("update names", data);
+    socket.setMaxListeners(50);
   });
+  socket.on("disconnect", () => {});
 });
 
 io.on("connection", function (socket) {
   socket.on("update clubs", function (data) {
     // Retransmettre l'information à tous les clients
     io.emit("update clubs", data);
+    socket.setMaxListeners(50);
   });
+  socket.on("disconnect", () => {});
 });
 
-io.on("connection", (socket) => {
-  console.log("a user connected");
-
-  io.on("connection", function (socket) {
-    socket.on("score update", function (data) {
-      // Retransmettre les scores mis à jour à tous les clients
-      io.emit("score update", data);
-    });
+io.on("connection", function (socket) {
+  socket.on("timer update", function (timeRemaining) {
+    io.emit("timer update", timeRemaining);
+    socket.setMaxListeners(50);
   });
+  socket.on("disconnect", () => {});
+});
 
-  io.on("connection", function (socket) {
-    socket.on("timer update", function (timeRemaining) {
-      io.emit("timer update", timeRemaining);
-    });
+io.on("connection", function (socket) {
+  socket.on("score update", function (data) {
+    // Retransmettre les scores mis à jour à tous les clients
+    io.emit("score update", data);
+    socket.setMaxListeners(50);
   });
+  socket.on("disconnect", () => {});
+});
 
-  socket.on("disconnect", () => {
-    console.log("user disconnected");
+io.on("connection", function (socket) {
+  socket.on("shido update", function (data) {
+    io.emit("shido update", data);
+    socket.setMaxListeners(50);
   });
+  socket.on("disconnect", () => {});
 });
 
 server.listen(3000, () => {

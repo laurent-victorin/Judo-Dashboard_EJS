@@ -66,9 +66,28 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Écouter les événements pour l'immobilisation (Osae-Komi)
-  socket.on("update immobilization", function (immobilizationTimes) {
-    // Mettre à jour le temps d'immobilisation ici
+  socket.on("update osaekomi", function (data) {
+    const { player, time } = data;
+    const osaeKomiTimer = document.getElementById(`osaekomi-${player}-timer`);
+    const progressBar = document.getElementById(`osaekomi-${player}-progress`);
+    osaeKomiTimer.textContent = `${time} sec`;
+    console.log(osaeKomiTimer.textContent);
+    updateOsaekomiProgressBar(player, time);
   });
+
+  function updateOsaekomiProgressBar(player, time) {
+    const progressBar = document.getElementById(`osaekomi-${player}-progress`);
+    const percentage = (time / 20) * 100;
+    progressBar.style.width = `${percentage}%`;
+
+    if (time < 10) {
+      progressBar.style.backgroundColor = "white";
+    } else if (time < 20) {
+      progressBar.style.backgroundColor = "yellow";
+    } else {
+      progressBar.style.backgroundColor = "green";
+    }
+  }
 
   socket.on("reset display", function () {
     // Réinitialiser l'affichage des noms et des clubs

@@ -78,7 +78,7 @@ body {
   /* couleur de fond de la barre de progression */
 }
 
-.progress-bar {
+.timer-progress-bar {
   height: 20px;
   /* ou une hauteur spécifique */
   background-color: #4caf50;
@@ -187,4 +187,25 @@ body {
   align-items: center;
   gap: 20px;
   color: #111;
+}
+
+.progress-bar {
+  height: 20px;
+  /* Hauteur de la barre */
+  width: 0%;
+  /* Largeur initiale */
+  background-color: white;
+  /* Couleur initiale */
+  transition: width 0.5s ease-in-out, background-color 0.5s ease-in-out;
+  /* Transition douce */
+}
+
+/* Styles supplémentaires pour les containers d'immobilisation */
+.osaekomi-timer-container {
+  /* Styles pour le conteneur des timers d'immobilisation */
+}
+
+.osaekomi-white-container,
+.osaekomi-red-container {
+  /* Styles spécifiques pour les conteneurs blanc et rouge */
 }

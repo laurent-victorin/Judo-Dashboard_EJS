@@ -1,4 +1,3 @@
-// server.js
 const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
@@ -20,47 +19,54 @@ app.get("/display", (req, res) => {
   res.render("display");
 });
 
+// Handle socket connections
 io.on("connection", function (socket) {
+  console.log("New client connected");
+
+  // Handle updating names
   socket.on("update names", function (data) {
-    // Envoie les noms mis à jour à tous les clients, y compris display.ejs
     io.emit("update names", data);
-    socket.setMaxListeners(50);
   });
-  socket.on("disconnect", () => {});
-});
 
-io.on("connection", function (socket) {
+  // Handle updating clubs
   socket.on("update clubs", function (data) {
-    // Retransmettre l'information à tous les clients
     io.emit("update clubs", data);
-    socket.setMaxListeners(50);
   });
-  socket.on("disconnect", () => {});
-});
 
-io.on("connection", function (socket) {
+  // Handle timer updates
   socket.on("timer update", function (timeRemaining) {
     io.emit("timer update", timeRemaining);
-    socket.setMaxListeners(50);
   });
-  socket.on("disconnect", () => {});
-});
 
-io.on("connection", function (socket) {
+  // Handle score updates
   socket.on("score update", function (data) {
-    // Retransmettre les scores mis à jour à tous les clients
     io.emit("score update", data);
-    socket.setMaxListeners(50);
   });
-  socket.on("disconnect", () => {});
-});
 
-io.on("connection", function (socket) {
+  // Handle shido updates
   socket.on("shido update", function (data) {
     io.emit("shido update", data);
-    socket.setMaxListeners(50);
   });
-  socket.on("disconnect", () => {});
+
+  // Handle osaekomi timer updates
+  // You'll need to implement the start, stop, and reset logic based on your application's needs
+  socket.on("start osaekomi", function (data) {
+    // Start the osaekomi timer logic here
+    // and regularly emit 'update osaekomi' events with the time and player
+  });
+
+  socket.on("stop osaekomi", function (data) {
+    // Stop the osaekomi timer logic here
+  });
+
+  socket.on("reset osaekomi", function (data) {
+    // Reset the osaekomi timer logic here
+  });
+
+  // Handle disconnect
+  socket.on("disconnect", () => {
+    console.log("Client disconnected");
+  });
 });
 
 server.listen(3000, () => {

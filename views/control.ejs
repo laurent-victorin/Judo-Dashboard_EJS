@@ -37,6 +37,8 @@
       <div class="time">2:49</div>
       <button id="start">Hajime</button>
       <button id="reset">Réinitialiser</button>
+      <button id="new-match">Nouveau Combat</button>
+      <button onclick="playGongSound()">Tester le Gong</button>
     </div>
 
     <!-- Nom des judokas-->
@@ -163,7 +165,41 @@
     </div>
 
     <!-- Nouveau Combat -->
-    <button id="new-match">Nouveau Combat</button>
+
+    <br />
+
+    <!-- Prochains combattants -->
+    <div class="next-fighters">
+      <div>
+        <label for="next-white-name">Prochain Judoka Blanc :</label>
+        <input
+          type="text"
+          id="next-white-name"
+          placeholder="Nom du Judoka Blanc"
+        />
+        <input
+          type="text"
+          id="next-white-club"
+          placeholder="Club du Judoka Blanc"
+        />
+      </div>
+      <div>
+        <label for="next-red-name">Prochain Judoka Rouge :</label>
+        <input
+          type="text"
+          id="next-red-name"
+          placeholder="Nom du Judoka Rouge"
+        />
+        <input
+          type="text"
+          id="next-red-club"
+          placeholder="Club du Judoka Rouge"
+        />
+      </div>
+      <div class="next-fighters-controls">
+        <button id="validate-next-fight">Valider prochain combat</button>
+      </div>
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/script.js"></script>

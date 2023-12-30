@@ -96,6 +96,7 @@ function startTimer() {
         isTimerRunning = false;
         hajimeButton.textContent = "Hajime"; // Remet le texte du bouton en "Hajime"
         timerDisplay.textContent = "0:00";
+        playGongSound();
       }
     }, 1000);
   } else {
@@ -199,6 +200,7 @@ function startImmobilization(playerColor) {
           time: immobilizationTimers[playerColor].time,
         });
       } else {
+        playGongSound();
         stopImmobilization(playerColor); // Stop when it reaches 20 seconds
       }
     }, 1000); // Updates every second
@@ -257,11 +259,32 @@ function updateImmobilizationDisplay(playerColor, time) {
 // Nouveau Combat //
 // Fonction pour réinitialiser tous les chronomètres et scores
 function resetAll() {
-  // Réinitialiser les champs d'entrée pour les noms et les clubs
-  document.getElementById("white-name").value = "Judoka Blanc";
-  document.getElementById("red-name").value = "Judoka Rouge";
-  document.getElementById("white-club").value = "Club";
-  document.getElementById("red-club").value = "Club";
+  // Transférer les informations des prochains combattants aux champs actuels
+  const nextWhiteName = document.getElementById("next-white-name").value;
+  const nextWhiteClub = document.getElementById("next-white-club").value;
+  const nextRedName = document.getElementById("next-red-name").value;
+  const nextRedClub = document.getElementById("next-red-club").value;
+  // Mettre à jour les inputs actuels
+  document.getElementById("white-name").value = nextWhiteName;
+  document.getElementById("white-club").value = nextWhiteClub;
+  document.getElementById("red-name").value = nextRedName;
+  document.getElementById("red-club").value = nextRedClub;
+
+  // Envoyer les informations mises à jour au serveur
+  socket.emit("update names", {
+    white: nextWhiteName,
+    red: nextRedName,
+    whiteClub: nextWhiteClub,
+    redClub: nextRedClub,
+  });
+
+  // Envoyer également les informations des prochains combattants pour mise à jour du display
+  socket.emit("update upcoming fighters", {
+    nextWhiteName,
+    nextWhiteClub,
+    nextRedName,
+    nextRedClub,
+  });
 
   // Réinitialiser les scores, Shido, et immobilisations pour chaque joueur
   ["white", "red"].forEach((playerColor) => {
@@ -304,13 +327,6 @@ function resetScores(playerColor) {
   // et mettre à jour l'affichage si nécessaire
 }
 
-// Ajouter un écouteur d'événements pour le bouton "Nouveau Combat"
-document.getElementById("new-match").addEventListener("click", resetAll);
-
-// Assurez-vous d'avoir un bouton avec l'id 'new-match' dans votre fichier EJS
-
-// public/js/control.js
-
 // Supposons que vous envoyez les données lorsqu'un bouton est cliqué ou après un événement 'change'
 document.getElementById("white-name").addEventListener("blur", function () {
   socket.emit("update names", {
@@ -348,34 +364,18 @@ document.getElementById("red-club").addEventListener("blur", function () {
 
 // Désigner le vainqueur
 function designateWinner() {
-  // Calculate points
   const whitePoints = calculatePoints("white");
   const redPoints = calculatePoints("red");
 
-  // Determine the winner based on points or other criteria
-  let winner;
+  // Initial comparison based on total points
   if (whitePoints.total > redPoints.total) {
-    winner = "Judoka Blanc";
-    displayWinner(winner, "black", "white");
+    displayWinner("Judoka Blanc", whitePoints.total, redPoints.total);
   } else if (redPoints.total > whitePoints.total) {
-    winner = "Judoka Rouge";
-    displayWinner(winner, "red", "white");
+    displayWinner("Judoka Rouge", whitePoints.total, redPoints.total);
   } else {
-    // Further tie-breaking logic based on Kinza and Shido
-    winner = tieBreaker(whitePoints, redPoints);
-    displayWinner(
-      winner,
-      winner === "Match Nul"
-        ? "gray"
-        : winner === "Judoka Blanc"
-        ? "white"
-        : "red",
-      winner === "Match Nul"
-        ? "white"
-        : winner === "Judoka Blanc"
-        ? "white"
-        : "white"
-    );
+    // In case of a tie in total points, use further criteria
+    const winner = tieBreaker(whitePoints, redPoints);
+    displayWinner(winner, whitePoints.total, redPoints.total);
   }
 }
 
@@ -399,35 +399,142 @@ function calculatePoints(playerColor) {
 }
 
 function tieBreaker(whitePoints, redPoints) {
-  // Further tie-breaking logic based on Kinza and Shido
+  // First, check Kinza
   if (whitePoints.kinza > redPoints.kinza) {
     return "Judoka Blanc";
   } else if (redPoints.kinza > whitePoints.kinza) {
     return "Judoka Rouge";
   } else {
-    // Further tie-break based on Shido (less is better)
+    // In case of a tie in Kinza, check Shidos (less is better)
     if (whitePoints.shido < redPoints.shido) {
       return "Judoka Blanc";
     } else if (redPoints.shido < whitePoints.shido) {
       return "Judoka Rouge";
     } else {
-      return "Match Nul"; // Complete tie
+      // Complete tie
+      return "Match Nul";
     }
   }
 }
 
-function displayWinner(winner, bgColor, textColor) {
+// script.js
+
+// Mettez à jour selon la nouvelle structure de displayWinner
+function displayWinner(winner, whiteScore, redScore) {
   // Update UI to display the winner
   const winnerDisplay = document.getElementById("winner-display");
-  const winnerColor = document.getElementById("winner-color");
-
   winnerDisplay.style.display = "block"; // Make the winner display visible
-  winnerDisplay.style.backgroundColor = bgColor;
-  winnerColor.style.color = textColor;
-  winnerColor.textContent = winner; // Update text to show the winner
+
+  let displayText = `${winner}: Blanc (${whiteScore}) contre Rouge (${redScore})`;
+  // Adjust colors and text based on the winner or tie
+  if (winner === "Match Nul") {
+    winnerDisplay.style.backgroundColor = "gray";
+    winnerDisplay.style.color = "white";
+    displayText = `Match Nul: Blanc (${whiteScore}) contre Rouge (${redScore})`;
+  } else {
+    winnerDisplay.style.backgroundColor =
+      winner === "Judoka Blanc" ? "white" : "red";
+    winnerDisplay.style.color = winner === "Judoka Blanc" ? "black" : "white";
+  }
+
+  winnerDisplay.textContent = displayText; // Update text to show the winner or tie
 }
 
 // Event listener for the Designate Winner button
 document
   .getElementById("designate-winner")
   .addEventListener("click", designateWinner);
+
+// Jouer un son à la fin des timers
+function playGongSound() {
+  const audio = new Audio("/mp3/gong.mp3");
+  audio.play();
+}
+
+// Lorsque "Nouveau Combat" est cliqué, mettez à jour les noms actuels avec les prochains combattants
+document.getElementById("new-match").addEventListener("click", function () {
+  // Transférer les informations des prochains combattants aux champs actuels
+  const nextWhiteName = document.getElementById("next-white-name").value;
+  const nextWhiteClub = document.getElementById("next-white-club").value;
+  const nextRedName = document.getElementById("next-red-name").value;
+  const nextRedClub = document.getElementById("next-red-club").value;
+
+  // Mettre à jour les inputs actuels
+  document.getElementById("white-name").value = nextWhiteName;
+  document.getElementById("white-club").value = nextWhiteClub;
+  document.getElementById("red-name").value = nextRedName;
+  document.getElementById("red-club").value = nextRedClub;
+
+  // Réinitialiser les champs des prochains combattants
+  document.getElementById("next-white-name").value = "";
+  document.getElementById("next-white-club").value = "";
+  document.getElementById("next-red-name").value = "";
+  document.getElementById("next-red-club").value = "";
+
+  // Envoyer les informations mises à jour au serveur
+  socket.emit("update names", {
+    white: nextWhiteName,
+    red: nextRedName,
+    whiteClub: nextWhiteClub,
+    redClub: nextRedClub,
+  });
+
+  // Réinitialiser également les informations du display pour les prochains combattants
+  socket.emit("reset upcoming fighters");
+
+  // Supposons que vous envoyez les données lorsqu'un bouton est cliqué ou après un événement 'change'
+  document
+    .getElementById("next-white-name")
+    .addEventListener("blur", function () {
+      socket.emit("update next names", {
+        white: this.value,
+        red: document.getElementById("next-red-name").value,
+      });
+    });
+
+  document
+    .getElementById("next-red-name")
+    .addEventListener("blur", function () {
+      socket.emit("update next names", {
+        red: this.value,
+        white: document.getElementById("next-white-name").value,
+      });
+    });
+
+  // Exemple de gestion de l'entrée du club pour le judoka blanc
+  document
+    .getElementById("next-white-club")
+    .addEventListener("blur", function () {
+      socket.emit("update next clubs", {
+        white: this.value,
+        red: document.getElementById("next-red-club").value, // Assurez-vous que c'est la valeur actuelle
+      });
+    });
+
+  // Faites de même pour le club du judoka rouge
+  document
+    .getElementById("next-red-club")
+    .addEventListener("blur", function () {
+      socket.emit("update next clubs", {
+        white: document.getElementById("next-white-club").value, // Assurez-vous que c'est la valeur actuelle
+        red: this.value,
+      });
+    });
+});
+
+document
+  .getElementById("validate-next-fight")
+  .addEventListener("click", function () {
+    const nextWhiteName = document.getElementById("next-white-name").value;
+    const nextWhiteClub = document.getElementById("next-white-club").value;
+    const nextRedName = document.getElementById("next-red-name").value;
+    const nextRedClub = document.getElementById("next-red-club").value;
+
+    // Envoyer les informations des prochains combattants pour mise à jour du display
+    socket.emit("update upcoming fighters", {
+      nextWhiteName,
+      nextWhiteClub,
+      nextRedName,
+      nextRedClub,
+    });
+  });

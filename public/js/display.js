@@ -157,4 +157,13 @@ document.addEventListener("DOMContentLoaded", function () {
     // Assuming data contains {winner, bgColor, textColor}
     displayWinner(data.winner, data.bgColor, data.textColor);
   });
+
+  // Affiche nouveau combattants
+  socket.on("reset upcoming fighters", function () {
+    // Réinitialiser l'affichage des prochains combattants
+    document.getElementById("upcoming-red").textContent = "";
+    document.getElementById("upcoming-red-club").textContent = "";
+    document.getElementById("upcoming-white").textContent = "";
+    document.getElementById("upcoming-white-club").textContent = "";
+  });
 });

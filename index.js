@@ -70,6 +70,16 @@ io.on("connection", function (socket) {
     io.emit("update winner", data);
   });
 
+  socket.on("update upcoming fighters", function (data) {
+    // Retransmettre les informations des prochains combattants à tous les clients
+    io.emit("update upcoming fighters", data);
+  });
+
+  socket.on("reset upcoming fighters", function () {
+    // Retransmettre l'ordre de réinitialisation à tous les clients
+    io.emit("reset upcoming fighters");
+  });
+
   // Handle disconnect
   socket.on("disconnect", () => {});
 });

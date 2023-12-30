@@ -54,6 +54,15 @@ document.addEventListener("DOMContentLoaded", function () {
   updateShidoDisplay("red");
 });
 
+/*- NOM ANIMATION et LOGO -------------------------------------------*/
+function updateAnimationInfo() {
+  const animationName = document.getElementById("animation-name").value;
+  const logoUrl = document.getElementById("logo-url").value;
+
+  // Emitting the event with animation name and logo URL to the server
+  socket.emit("update animation", { animationName, logoUrl });
+}
+
 /*-MODIFY SCORE----------------------------------------------------------------------*/
 function modifyScore(player, pointType, amount) {
   const scoreSpan = document.getElementById(`${player}-${pointType}`);
@@ -177,12 +186,18 @@ function startImmobilization(playerColor) {
     immobilizationTimers[playerColor].time = 0; // Reset time to 0
 
     immobilizationTimers[playerColor].interval = setInterval(() => {
-      if(immobilizationTimers[playerColor].time < 20) {
+      if (immobilizationTimers[playerColor].time < 20) {
         immobilizationTimers[playerColor].time++;
-        updateImmobilizationDisplay(playerColor, immobilizationTimers[playerColor].time);
-        socket.emit("update osaekomi", { player: playerColor, time: immobilizationTimers[playerColor].time });
+        updateImmobilizationDisplay(
+          playerColor,
+          immobilizationTimers[playerColor].time
+        );
+        socket.emit("update osaekomi", {
+          player: playerColor,
+          time: immobilizationTimers[playerColor].time,
+        });
       } else {
-        stopImmobilization(playerColor);  // Stop when it reaches 20 seconds
+        stopImmobilization(playerColor); // Stop when it reaches 20 seconds
       }
     }, 1000); // Updates every second
   }
@@ -220,11 +235,14 @@ function updateImmobilizationDisplay(playerColor, time) {
 
     // Update color based on the time
     if (time < 10) {
-      progressBar.style.backgroundColor = "white";
+      timerElement.style.backgroundColor = "white";
+      timerElement.style.color = "black";
     } else if (time < 20) {
-      progressBar.style.backgroundColor = "yellow";
+      timerElement.style.backgroundColor = "yellow";
+      timerElement.style.color = "black";
     } else {
-      progressBar.style.backgroundColor = "green";
+      timerElement.style.backgroundColor = "green";
+      timerElement.style.color = "white";
     }
   }
   // Emit an event with the current time for the specific player

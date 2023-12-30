@@ -21,6 +21,12 @@ app.get("/display", (req, res) => {
 
 // Handle socket connections
 io.on("connection", function (socket) {
+  // Handle animation name & logo
+  socket.on("update animation", function (data) {
+    // Broadcasting the update to all connected clients
+    io.emit("update animation", data);
+  });
+
   // Handle updating names
   socket.on("update names", function (data) {
     io.emit("update names", data);

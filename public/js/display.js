@@ -136,5 +136,18 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   /*----------------------------------------------------------------------------------------------------*/
-  // Ajoutez ici d'autres écouteurs pour différents types de données que vous souhaitez synchroniser
+  // Nom Animation et Logo
+  socket.on("update animation", function (data) {
+    const { animationName, logoUrl } = data;
+
+    // Updating the animation name
+    const animationNameDisplay = document.getElementById(
+      "animation-name-display"
+    );
+    if (animationNameDisplay) animationNameDisplay.textContent = animationName;
+
+    // Updating the logo URL
+    const logoImg = document.getElementById("club-logo");
+    if (logoImg) logoImg.src = logoUrl;
+  });
 });

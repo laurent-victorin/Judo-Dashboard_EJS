@@ -6,6 +6,18 @@
     <link rel="stylesheet" href="/css/control.css" />
   </head>
   <body>
+    <!-- Nom de l'animation-->
+    <div class="animation-control">
+      <label for="animation-name">Nom de l'animation :</label>
+      <input type="text" id="animation-name" placeholder="Nom de l'animation" />
+
+      <label for="logo-url">URL du Logo :</label>
+      <input type="text" id="logo-url" placeholder="URL du logo du club" />
+      <button onclick="updateAnimationInfo()">
+        Mettre à jour l'information
+      </button>
+    </div>
+
     <!-- Durée des combats-->
     <div class="timer-controls">
       <label for="time-select">Durée du combat :</label>
@@ -107,7 +119,8 @@
     <div class="osaekomi-container">
       <div class="immobilization" id="white-immobilization">
         <h3>Immobilisations Blanc</h3>
-        <div class="time-display" id="white-osae-komi-time">0s</div>
+        <div class="time-display" id="osaekomi-white-timer">0s</div>
+        <div id="osaekomi-white-progress"></div>
         <button onclick="startImmobilization('white')" id="white-osae-komi">
           Osae-Komi
         </button>
@@ -124,7 +137,8 @@
 
       <div class="immobilization" id="red-immobilization">
         <h3>Immobilisations Rouge</h3>
-        <div class="time-display" id="red-osae-komi-time">0s</div>
+        <div class="time-display" id="osaekomi-red-timer">0s</div>
+        <div id="osaekomi-red-progress"></div>
         <button onclick="startImmobilization('red')" id="red-osae-komi">
           Osae-Komi
         </button>

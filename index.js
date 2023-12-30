@@ -65,6 +65,11 @@ io.on("connection", function (socket) {
     io.emit("reset display");
   });
 
+  socket.on("designate winner", function (data) {
+    // Broadcast the winner to all clients
+    io.emit("update winner", data);
+  });
+
   // Handle disconnect
   socket.on("disconnect", () => {});
 });

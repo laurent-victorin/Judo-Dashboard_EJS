@@ -132,3 +132,16 @@ button {
   margin-bottom: 15px;
   color: #111;
 }
+
+#winner-display{
+  width: 100%;
+  margin-top: 25px;
+  padding: 15px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+#winner-text, #winner-color{
+  color: white;
+}

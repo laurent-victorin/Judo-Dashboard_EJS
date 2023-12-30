@@ -150,4 +150,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const logoImg = document.getElementById("club-logo");
     if (logoImg) logoImg.src = logoUrl;
   });
+
+  /*-----------------------------------------------------------------------------*/
+  // Désignation Vainqueur
+  socket.on("update winner", function (data) {
+    // Assuming data contains {winner, bgColor, textColor}
+    displayWinner(data.winner, data.bgColor, data.textColor);
+  });
 });

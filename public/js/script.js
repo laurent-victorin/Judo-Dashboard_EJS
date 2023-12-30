@@ -183,7 +183,9 @@ let immobilizationTimers = {
 function startImmobilization(playerColor) {
   if (!immobilizationTimers[playerColor].running) {
     immobilizationTimers[playerColor].running = true;
-    immobilizationTimers[playerColor].time = 0; // Reset time to 0
+
+    // Don't reset time to 0 here. Remove or comment out the following line:
+    // immobilizationTimers[playerColor].time = 0;
 
     immobilizationTimers[playerColor].interval = setInterval(() => {
       if (immobilizationTimers[playerColor].time < 20) {
@@ -341,3 +343,91 @@ document.getElementById("red-club").addEventListener("blur", function () {
 });
 
 // Répétez pour le combattant rouge ou tout autre élément que vous souhaitez synchroniser
+
+// script.js
+
+// Désigner le vainqueur
+function designateWinner() {
+  // Calculate points
+  const whitePoints = calculatePoints("white");
+  const redPoints = calculatePoints("red");
+
+  // Determine the winner based on points or other criteria
+  let winner;
+  if (whitePoints.total > redPoints.total) {
+    winner = "Judoka Blanc";
+    displayWinner(winner, "black", "white");
+  } else if (redPoints.total > whitePoints.total) {
+    winner = "Judoka Rouge";
+    displayWinner(winner, "red", "white");
+  } else {
+    // Further tie-breaking logic based on Kinza and Shido
+    winner = tieBreaker(whitePoints, redPoints);
+    displayWinner(
+      winner,
+      winner === "Match Nul"
+        ? "gray"
+        : winner === "Judoka Blanc"
+        ? "white"
+        : "red",
+      winner === "Match Nul"
+        ? "white"
+        : winner === "Judoka Blanc"
+        ? "white"
+        : "white"
+    );
+  }
+}
+
+function calculatePoints(playerColor) {
+  // Fetch scores from UI or a maintained state
+  const ippon = parseInt(
+    document.getElementById(`${playerColor}-ippon`).textContent
+  );
+  const wazari = parseInt(
+    document.getElementById(`${playerColor}-wazari`).textContent
+  );
+  const kinza = parseInt(
+    document.getElementById(`${playerColor}-kinza`).textContent
+  );
+  const shido = shidoCount[playerColor]; // Assuming shidoCount is up to date
+
+  // Calculate total points based on rules
+  const total = ippon * 10 + wazari * 7 + kinza * 0; // kinza doesn't contribute to points
+
+  return { total, ippon, wazari, kinza, shido };
+}
+
+function tieBreaker(whitePoints, redPoints) {
+  // Further tie-breaking logic based on Kinza and Shido
+  if (whitePoints.kinza > redPoints.kinza) {
+    return "Judoka Blanc";
+  } else if (redPoints.kinza > whitePoints.kinza) {
+    return "Judoka Rouge";
+  } else {
+    // Further tie-break based on Shido (less is better)
+    if (whitePoints.shido < redPoints.shido) {
+      return "Judoka Blanc";
+    } else if (redPoints.shido < whitePoints.shido) {
+      return "Judoka Rouge";
+    } else {
+      return "Match Nul"; // Complete tie
+    }
+  }
+}
+
+function displayWinner(winner, bgColor, textColor) {
+  // Update UI to display the winner
+  const winnerDisplay = document.getElementById("winner-display");
+  const winnerColor = document.getElementById("winner-color");
+
+  winnerDisplay.style.display = "block"; // Make the winner display visible
+  winnerDisplay.style.backgroundColor = bgColor;
+  winnerColor.style.color = textColor;
+  winnerColor.textContent = winner; // Update text to show the winner
+}
+
+// Event listener for the Designate Winner button
+document
+  .getElementById("designate-winner")
+  .addEventListener("click", designateWinner);

@@ -434,12 +434,12 @@ function displayWinner(winner, whiteScore, redScore) {
   const winnerDisplay = document.getElementById("winner-display");
   winnerDisplay.style.display = "block"; // Make the winner display visible
 
-  let displayText = `${winner}: Blanc (${whiteScore}) contre Rouge (${redScore})`;
+  let displayText = `${winner}: Rouge (${redScore}) contre Blanc (${whiteScore})`;
   // Adjust colors and text based on the winner or tie
   if (winner === "Match Nul") {
     winnerDisplay.style.backgroundColor = "gray";
     winnerDisplay.style.color = "white";
-    displayText = `Match Nul: Blanc (${whiteScore}) contre Rouge (${redScore})`;
+    displayText = `Match Nul: Rouge (${redScore}) contre Blanc (${whiteScore})`;
   } else {
     winnerDisplay.style.backgroundColor =
       winner === "Judoka Blanc" ? "white" : "red";

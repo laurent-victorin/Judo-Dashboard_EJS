@@ -131,7 +131,7 @@ function resetTimer() {
   isTimerRunning = false;
   timeRemaining = selectedTime;
   updateTimerDisplay();
-  hajimeButton.textContent = "Hajime"; // Remet le texte du bouton en "Hajime"
+  hajimeButton.textContent = "⏯️ Hajime"; // Remet le texte du bouton en "Hajime"
   updateChronoContainerColor();
   socket.emit("timer update", { timeRemaining, selectedTime }); // Envoie le temps réinitialisé
 }
@@ -447,7 +447,7 @@ function displayWinner(winner, whiteScore, redScore) {
   }
 
   winnerDisplay.textContent = displayText; // Update text to show the winner or tie
-   // Envoyer les données du gagnant pour afficher dans la modale sur display.ejs
+  // Envoyer les données du gagnant pour afficher dans la modale sur display.ejs
   socket.emit("winner data", { winner, whiteScore, redScore });
 }
 

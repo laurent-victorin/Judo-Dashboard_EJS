@@ -23,10 +23,10 @@ body {
 .row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  gap: 5px;
-  width: 100%;
+  gap: 15px;
+  /* width: 100%; */
 }
 
 .column {
@@ -35,7 +35,7 @@ body {
   justify-content: flex-start;
   align-items: flex-end;
   gap: 5px;
-  width: 100%;
+  /* width: 100%; */
 }
 
 .center{
@@ -55,7 +55,7 @@ label {
 }
 
 .btn-1 {
-  padding: 5px 5px;
+  padding: 5px 15px;
   font-size: 14px;
   font-weight: 500;
   background-color: #ededed;
@@ -304,4 +304,10 @@ label {
 
 #winner-text, #winner-color{
   color: white;
+}
+
+
+.icon{
+  font-size: 16px;
+  line-height: 1.2;
 }

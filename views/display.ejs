@@ -8,130 +8,140 @@
   </head>
   <body>
     <div id="display-container">
-      /* Nom Animation & logo */
-      <div id="animation-banner">
-        <div class="top-container">
-          <div class="animation_next">
-            <div>
-              <span class="tapis-number"><%= tableNum %></span>
-              <div id="animation-name-display">
-                Tapis <%= tableNum %> : Nom de l'animation
-              </div>
+      <div class="div1">
+        <span class="tapis-number"><%= tableNum %></span>
+      </div>
+
+      <div class="div2">
+        <div id="animation-name-display">Nom de l'animation / Catégorie</div>
+      </div>
+
+      <div class="div3">
+        <img
+          id="club-logo"
+          src="/img/cd33_logo.png"
+          alt=""
+          style="height: 100px"
+        />
+      </div>
+      <div class="div4">
+        <div class="info-white-container">
+          <div id="white-info" class="judoka-display">
+            <h2 id="white-name-display">Judoka Blanc</h2>
+            <h3 id="white-club-display">Club :</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="div5">
+        <div class="info-red-container">
+          <div id="red-info" class="judoka-display">
+            <h2 id="red-name-display">Judoka Rouge</h2>
+            <h3 id="red-club-display">Club :</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="div6">
+        <div class="scores-white-container">
+          <div class="scores-white-box">
+            <div class="ippon-white-box">
+              <span id="display-white-ippon">0</span>
+              <span>Ippon</span>
             </div>
-            <!-- Prochains combattants -->
-            <div id="upcoming-fight" style="color: white">
-              Prochain combat :
-              <span id="upcoming-red" style="color: red"></span>
-              (<span id="upcoming-red-club" style="color: red"></span>) /
-              <span id="upcoming-white" style="color: white"></span>
-              (<span id="upcoming-white-club" style="color: white"></span>)
+            <div class="wazari-white-box">
+              <span id="display-white-wazari">0</span>
+              <span>Waza-Ari</span>
+            </div>
+            <div class="kinza-white-box">
+              <span id="display-white-kinza">0</span>
+              <span>Kinza</span>
             </div>
           </div>
-          <img
-            id="club-logo"
-            src="https://cdn-icons-png.flaticon.com/512/693/693695.png"
-            alt=""
-            style="height: 100px"
-          />
-        </div>
-      </div>
-
-      /* Info Name & Club White */
-      <div class="info-white-container white">
-        <div id="white-info" class="judoka-display">
-          <h2 id="white-name-display">Judoka Blanc</h2>
-          <h3 id="white-club-display">Club :</h3>
-        </div>
-      </div>
-
-      /* Info Name & Club Red */
-      <div class="info-red-container red">
-        <div id="red-info" class="judoka-display">
-          <h2 id="red-name-display">Judoka Rouge</h2>
-          <h3 id="red-club-display">Club :</h3>
-        </div>
-      </div>
-
-      /* Score White*/
-      <div class="scores-white-container white">
-        <div class="scores-white-box">
-          <div class="ippon-white-box">
-            <span id="display-white-ippon">0</span>
-            <span>Ippon</span>
-          </div>
-          <div class="wazari-white-box">
-            <span id="display-white-wazari">0</span>
-            <span>Waza-Ari</span>
-          </div>
-          <div class="kinza-white-box">
-            <span id="display-white-kinza">0</span>
-            <span>Kinza</span>
+          <div class="penalties-white-box">
+            <span>Shido</span>
+            <div id="display-white-shido"></div>
           </div>
         </div>
-        <div class="penalties-white-box">
-          <span>Shido</span>
-          <div id="display-white-shido"></div>
-        </div>
       </div>
 
-      /* Score Red*/
-      <div class="scores-red-container red">
-        <div class="scores-red-box">
-          <div class="ippon-red-box">
-            <span id="display-red-ippon">0</span>
-            <span>Ippon</span>
+      <div class="div7">
+        <div class="scores-red-container red">
+          <div class="scores-red-box">
+            <div class="ippon-red-box">
+              <span id="display-red-ippon">0</span>
+              <span>Ippon</span>
+            </div>
+            <div class="wazari-red-box">
+              <span id="display-red-wazari">0</span>
+              <span>Waza-Ari</span>
+            </div>
+            <div class="kinza-red-box">
+              <span id="display-red-kinza">0</span>
+              <span>Kinza</span>
+            </div>
           </div>
-          <div class="wazari-red-box">
-            <span id="display-red-wazari">0</span>
-            <span>Waza-Ari</span>
-          </div>
-          <div class="kinza-red-box">
-            <span id="display-red-kinza">0</span>
-            <span>Kinza</span>
+          <div class="penalties-red-box">
+            <span>Shido</span>
+            <div id="display-red-shido"></div>
           </div>
         </div>
-        <div class="penalties-red-box">
-          <span>Shido</span>
-          <div id="display-red-shido"></div>
+      </div>
+
+      <div class="div8">
+        <div class="osaekomi-white-container">
+          <div class="row">
+            <span class="osaekomi-title">Osae-Komi</span>
+            <div id="osaekomi-white-timer">0s</div>
+          </div>
+          <div id="osaekomi-white-progress" class="progress-bar"></div>
         </div>
       </div>
 
-      /* Osaekomi White Timer*/
-      <div class="osaekomi-white-container white">
-        <span class="osaekomi-title">Osae-Komi</span>
-        <div id="osaekomi-white-timer">0s</div>
-        <div id="osaekomi-white-progress" class="progress-bar"></div>
-      </div>
-
-      /* Main Timer*/
-      <div class="timer-container">
-        <div id="main-timer" class="timer-display">3:00</div>
-        <div class="progress-bar-container">
-          <div
-            id="timer-progress"
-            class="timer-progress-bar"
-            style="width: 100%"
-          ></div>
+      <div class="div9">
+        <div class="timer-container">
+          <div id="main-timer" class="timer-display">3:00</div>
+          <div class="progress-bar-container">
+            <div
+              id="timer-progress"
+              class="timer-progress-bar"
+              style="width: 100%"
+            ></div>
+          </div>
         </div>
       </div>
 
-      /* Osaekomi Red Timer*/
-      <div class="osaekomi-red-container red">
-        <span class="osaekomi-title">Osae-Komi</span>
-        <div id="osaekomi-red-timer">0s</div>
-        <div id="osaekomi-red-progress" class="progress-bar"></div>
+      <div class="div10">
+        <div class="osaekomi-red-container">
+          <div class="row">
+            <span class="osaekomi-title">Osae-Komi</span>
+            <div id="osaekomi-red-timer">0s</div>
+          </div>
+          <div id="osaekomi-red-progress" class="progress-bar"></div>
+        </div>
+      </div>
+
+      <div class="div11">
+        <!-- Prochains combattants -->
+        <div id="upcoming-fight" style="color: white">
+          Prochain combat :
+          <span id="upcoming-red" style="color: red"></span>
+          (<span id="upcoming-red-club" style="color: red"></span>) /
+          <span id="upcoming-white" style="color: white"></span>
+          (<span id="upcoming-white-club" style="color: white"></span>)
+        </div>
       </div>
     </div>
 
     <!-- Modale du Vainqueur -->
-    <div id="winnerModal" class="modal">
+    <!-- <div id="winnerModal" class="modal">
       <div class="modal-content">
         <span class="close-button" onclick="toggleModal()">&times;</span>
         <h2>Informations du Vainqueur</h2>
         <p id="modalWinnerText">
           Le nom du gagnant et les scores seront affichés ici.
         </p>
-      </div>
+      </div> -->
     </div>
 
     <script src="/socket.io/socket.io.js"></script>

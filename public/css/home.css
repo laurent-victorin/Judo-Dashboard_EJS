@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  width: 100vw;
+  height: 100vh;
+  background: #7F7FD5;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.logo-cd33{
+  max-width: 350px;
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  gap: 50px;
+}
+
+.titre-h2{
+  max-width: 350px;
+  text-align: center;
+  font-size: 50px;
+  font-weight: 600;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.cd33{
+  text-align: center;
+  font-size: 25px;
+  background-color: #000;
+  color: #fff;
+  font-weight: 600;
+  padding: 10px;
+  margin: 0 auto;
+}
+
+.form{
+  padding: 20px;
+  background-color: #eee;
+  border: 1px solid #000;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 20px ;
+}
+
+.label{
+  font-size: small;
+  font-weight: 600;
+}
+
+.input{
+  align-items: end;
+  width: 200px;
+  height: 25px;
+  padding: 10px 5px;
+}
+
+.btn{
+  padding: 5px 10px;
+  font-size: 14px;
+  font-weight: 500;
+  background-color: #ededed;
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, .3);
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  cursor: pointer;
+  box-shadow: 1px 1px 0px rgba(0, 0, 0, .3);
+  border: 1px solid #666;
+}
+
+.btn-connexion{
+  align-self: center;
+}

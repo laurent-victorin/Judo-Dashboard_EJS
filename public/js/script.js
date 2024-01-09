@@ -54,13 +54,14 @@ document.addEventListener("DOMContentLoaded", function () {
   updateShidoDisplay("red");
 });
 
-/*- NOM ANIMATION et LOGO -------------------------------------------*/
+/*- UPDATE ANIMATION -------------------------------------------*/
+const updateAnimation = document.getElementById("updateAnimation");
+updateAnimation.addEventListener("click", updateAnimationInfo);
 function updateAnimationInfo() {
   const animationName = document.getElementById("animation-name").value;
-  const logoUrl = document.getElementById("logo-url").value;
 
   // Emitting the event with animation name and logo URL to the server
-  socket.emit("update animation", { animationName, logoUrl });
+  socket.emit("update animation", { animationName });
 }
 
 /*-MODIFY SCORE----------------------------------------------------------------------*/
@@ -82,19 +83,31 @@ function updateTimerDisplay() {
 }
 
 // Démarrage du chronomètre
+function updateChronoContainerColor() {
+  const chronoContainer = document.querySelector(".chrono-container");
+  if (isTimerRunning) {
+    // Vert si le chrono est en marche
+    chronoContainer.style.backgroundColor = "rgb(95, 175, 66)";
+  } else {
+    // RGB(194,145,255) si le chrono est en pause ou pas encore démarré
+    chronoContainer.style.backgroundColor = "rgb(194,145,255)";
+  }
+}
+
 function startTimer() {
   if (!isTimerRunning) {
     isTimerRunning = true;
-    hajimeButton.textContent = "Matte"; // Change le texte du bouton en "Matte"
+    hajimeButton.textContent = "⏸️ Matte"; // Change le texte du bouton en "Matte"
     timer = setInterval(function () {
       timeRemaining--;
       updateTimerDisplay();
+      updateChronoContainerColor();
       socket.emit("timer update", { timeRemaining, selectedTime }); // Envoie le temps restant à tous les clients
 
       if (timeRemaining <= 0) {
         clearInterval(timer);
         isTimerRunning = false;
-        hajimeButton.textContent = "Hajime"; // Remet le texte du bouton en "Hajime"
+        hajimeButton.textContent = "⏯️ Hajime"; // Remet le texte du bouton en "Hajime"
         timerDisplay.textContent = "0:00";
         playGongSound();
       }
@@ -108,7 +121,8 @@ function startTimer() {
 function pauseTimer() {
   clearInterval(timer);
   isTimerRunning = false;
-  hajimeButton.textContent = "Hajime"; // Remet le texte du bouton en "Hajime"
+  hajimeButton.textContent = "⏯️ Hajime"; // Remet le texte du bouton en "Hajime"
+  updateChronoContainerColor();
 }
 
 // Réinitialisation du chronomètre
@@ -118,6 +132,7 @@ function resetTimer() {
   timeRemaining = selectedTime;
   updateTimerDisplay();
   hajimeButton.textContent = "Hajime"; // Remet le texte du bouton en "Hajime"
+  updateChronoContainerColor();
   socket.emit("timer update", { timeRemaining, selectedTime }); // Envoie le temps réinitialisé
 }
 
@@ -321,12 +336,6 @@ function resetAll() {
   socket.emit("reset all");
 }
 
-// Supposons que vous ayez une fonction de réinitialisation des scores comme celle-ci
-function resetScores(playerColor) {
-  // Remettre les scores à 0 ou à la valeur initiale
-  // et mettre à jour l'affichage si nécessaire
-}
-
 // Supposons que vous envoyez les données lorsqu'un bouton est cliqué ou après un événement 'change'
 document.getElementById("white-name").addEventListener("blur", function () {
   socket.emit("update names", {
@@ -438,6 +447,8 @@ function displayWinner(winner, whiteScore, redScore) {
   }
 
   winnerDisplay.textContent = displayText; // Update text to show the winner or tie
+   // Envoyer les données du gagnant pour afficher dans la modale sur display.ejs
+  socket.emit("winner data", { winner, whiteScore, redScore });
 }
 
 // Event listener for the Designate Winner button
@@ -465,12 +476,6 @@ document.getElementById("new-match").addEventListener("click", function () {
   document.getElementById("red-name").value = nextRedName;
   document.getElementById("red-club").value = nextRedClub;
 
-  // Réinitialiser les champs des prochains combattants
-  document.getElementById("next-white-name").value = "";
-  document.getElementById("next-white-club").value = "";
-  document.getElementById("next-red-name").value = "";
-  document.getElementById("next-red-club").value = "";
-
   // Envoyer les informations mises à jour au serveur
   socket.emit("update names", {
     white: nextWhiteName,
@@ -479,13 +484,19 @@ document.getElementById("new-match").addEventListener("click", function () {
     redClub: nextRedClub,
   });
 
+  // Réinitialiser les champs des prochains combattants
+  document.getElementById("next-white-name").value = "";
+  document.getElementById("next-white-club").value = "";
+  document.getElementById("next-red-name").value = "";
+  document.getElementById("next-red-club").value = "";
+
   // Réinitialiser également les informations du display pour les prochains combattants
   socket.emit("reset upcoming fighters");
 
   // Supposons que vous envoyez les données lorsqu'un bouton est cliqué ou après un événement 'change'
   document
     .getElementById("next-white-name")
-    .addEventListener("blur", function () {
+    .addEventListener("change", function () {
       socket.emit("update next names", {
         white: this.value,
         red: document.getElementById("next-red-name").value,
@@ -494,7 +505,7 @@ document.getElementById("new-match").addEventListener("click", function () {
 
   document
     .getElementById("next-red-name")
-    .addEventListener("blur", function () {
+    .addEventListener("change", function () {
       socket.emit("update next names", {
         red: this.value,
         white: document.getElementById("next-white-name").value,
@@ -504,7 +515,7 @@ document.getElementById("new-match").addEventListener("click", function () {
   // Exemple de gestion de l'entrée du club pour le judoka blanc
   document
     .getElementById("next-white-club")
-    .addEventListener("blur", function () {
+    .addEventListener("change", function () {
       socket.emit("update next clubs", {
         white: this.value,
         red: document.getElementById("next-red-club").value, // Assurez-vous que c'est la valeur actuelle
@@ -514,7 +525,7 @@ document.getElementById("new-match").addEventListener("click", function () {
   // Faites de même pour le club du judoka rouge
   document
     .getElementById("next-red-club")
-    .addEventListener("blur", function () {
+    .addEventListener("change", function () {
       socket.emit("update next clubs", {
         white: document.getElementById("next-white-club").value, // Assurez-vous que c'est la valeur actuelle
         red: this.value,

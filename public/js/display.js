@@ -2,6 +2,9 @@
 document.addEventListener("DOMContentLoaded", function () {
   const socket = io(); // Connectez-vous au serveur WebSocket
 
+  // Rejoindre la room de la table spécifique
+  socket.emit("joinTable", "table01"); // Remplacer par l'ID de table dynamique
+
   /*-----------------------------------------------------------------------------------------------------*/
   // Écouter les événements pour les noms des judokas
   socket.on("update names", function (data) {
@@ -36,7 +39,6 @@ document.addEventListener("DOMContentLoaded", function () {
   /*--------------------------------------------------------------------------------------------------------*/
   // Écouter les événements pour les scores
   socket.on("score update", function (data) {
-    console.log("Data received:", data); // Vérifiez les données reçues
     const element = document.getElementById(
       `display-${data.player}-${data.pointType}`
     );
@@ -138,32 +140,49 @@ document.addEventListener("DOMContentLoaded", function () {
   /*----------------------------------------------------------------------------------------------------*/
   // Nom Animation et Logo
   socket.on("update animation", function (data) {
-    const { animationName, logoUrl } = data;
+    const { animationName } = data;
 
     // Updating the animation name
     const animationNameDisplay = document.getElementById(
       "animation-name-display"
     );
     if (animationNameDisplay) animationNameDisplay.textContent = animationName;
-
-    // Updating the logo URL
-    const logoImg = document.getElementById("club-logo");
-    if (logoImg) logoImg.src = logoUrl;
   });
 
   /*-----------------------------------------------------------------------------*/
   // Désignation Vainqueur
-  socket.on("update winner", function (data) {
-    // Assuming data contains {winner, bgColor, textColor}
-    displayWinner(data.winner, data.bgColor, data.textColor);
+  socket.on("toggle winner modal display", () => {
+    const winnerModal = document.getElementById("winnerModal"); // Remplacez par l'ID de votre modale
+    winnerModal.classList.toggle("show"); // Toggle la classe "show" pour afficher/masquer
   });
 
-  // Affiche nouveau combattants
+  function toggleModal() {
+    var modal = document.getElementById("winnerModal");
+    modal.style.display = modal.style.display === "block" ? "none" : "block";
+  }
+
+  // Vous pouvez ajouter ce code à la réception des données du gagnant
+  socket.on("winner data", (data) => {
+    document.getElementById(
+      "modalWinnerText"
+    ).textContent = `${data.winner}: Blanc (${data.whiteScore}) contre Rouge (${data.redScore})`;
+    toggleModal(); // Ouverture automatique de la modale avec les informations
+  });
+
+  // Réinitialiser l'affichage des prochains combattants
   socket.on("reset upcoming fighters", function () {
-    // Réinitialiser l'affichage des prochains combattants
     document.getElementById("upcoming-red").textContent = "";
     document.getElementById("upcoming-red-club").textContent = "";
     document.getElementById("upcoming-white").textContent = "";
     document.getElementById("upcoming-white-club").textContent = "";
+  });
+
+  // Affiche nouveau combattants
+  socket.on("update upcoming fighters", function (data) {
+    document.getElementById("upcoming-red").textContent = data.nextRedName;
+    document.getElementById("upcoming-red-club").textContent = data.nextRedClub;
+    document.getElementById("upcoming-white").textContent = data.nextWhiteName;
+    document.getElementById("upcoming-white-club").textContent =
+      data.nextWhiteClub;
   });
 });

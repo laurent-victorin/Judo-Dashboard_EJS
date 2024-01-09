@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Table <%= tableNum %></title>
+    <link rel="stylesheet" href="/css/table.css" />
+  </head>
+  <body>
+    <section class="container">
+      <img
+        class="logo-cd33"
+        src="/img/cd33_logo.png"
+        alt="logo CD33"
+      />
+      <h2 class="titre-h2">Table <%= tableNum %></h2>
+      <div>
+        <!-- Utilisez des balises <a> avec target="_blank" pour ouvrir dans un nouvel onglet -->
+        <a href="/cd33/table<%= tableNum %>/control" target="_blank">
+          <button class="btn">Panneau de Contrôle</button>
+        </a>
+        <a href="/cd33/table<%= tableNum %>/display" target="_blank">
+          <button class="btn">Affichage</button>
+        </a>
+      </div>
+    </section>
+  </body>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    // Supposons que vous ayez déjà chargé la bibliothèque Socket.IO et défini tableId
+    const socket = io(); // Initialiser la connexion socket
+
+    // Rejoindre la room de la table spécifique dès que possible
+    socket.on("connect", () => {
+      socket.emit("joinTable", tableId); // Utiliser l'ID de table dynamique
+    });
+
+    // ... votre logique de socket supplémentaire ...
+  </script>
+</html>

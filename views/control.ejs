@@ -2,112 +2,196 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <title>Tableau de Contrôle</title>
+    <title>Tableau de Contrôle Table <%= tableNum %></title>
     <link rel="stylesheet" href="/css/control.css" />
   </head>
   <body>
-    <!-- Nom de l'animation-->
-    <div class="animation-control">
-      <label for="animation-name">Nom de l'animation :</label>
-      <input type="text" id="animation-name" placeholder="Nom de l'animation" />
+    <section class="timer_animation_winner">
+      <div class="chrono-container left column">
+        <div class="reset-new">
+          <button class="btn-1" id="reset">🔄 Reset Temps</button>
+          <button class="btn-1" id="new-match">🆕 Nouveau Combat</button>
+        </div>
+        <div class="time">2:49</div>
+        <div class="row">
+          <button class="btn-1" id="start">⏯️ Hajime</button>
 
-      <label for="logo-url">URL du Logo :</label>
-      <input type="text" id="logo-url" placeholder="URL du logo du club" />
-      <button onclick="updateAnimationInfo()">
-        Mettre à jour l'information
-      </button>
-    </div>
+          <img
+            class="img-gong"
+            id="gong-sound"
+            onclick="playGongSound()"
+            src="/img/gong.png"
+            alt="gong"
+          />
+        </div>
+      </div>
+      <div class="right">
+        <div class="animation-control">
+          <h2 class="titre-table">Table <%= tableNum %></h2>
+          <div class="row">
+            <input
+              class="input-animation"
+              type="text"
+              id="animation-name"
+              placeholder="Animation/Catégorie"
+            />
+            <button class="btn-1" id="updateAni">Afficher Info</button>
+          </div>
+        </div>
+        <!-- Durée des combats-->
+        <div class="timer-controls">
+          <label for="time-select">Durée du combat :</label>
+          <select id="time-select">
+            <option value="90">1 minute 30sec</option>
+            <option value="120">2 minutes</option>
+            <option value="180" selected>3 minutes</option>
+            <option value="240">4 minutes</option>
+            <option value="300">5 minutes</option>
+          </select>
+          <button class="btn-1" id="set-time">⏱️ Valider Temps</button>
+        </div>
 
-    <!-- Durée des combats-->
-    <div class="timer-controls">
-      <label for="time-select">Durée du combat :</label>
-      <select id="time-select">
-        <option value="90">Mini-Poussins, Poussins : 1 minute 30sec</option>
-        <option value="120">Benjamins : 2 minutes</option>
-        <option value="180" selected>Minimes à Séniors : 3 minutes</option>
-        <option value="240">4 minutes</option>
-        <option value="300">5 minutes</option>
-      </select>
-      <button id="set-time">Valider</button>
-    </div>
-
-    <!-- Chronomètre Principal-->
-    <div class="timer">
-      <h1>Chronomètre</h1>
-      <div class="time">2:49</div>
-      <button id="start">Hajime</button>
-      <button id="reset">Réinitialiser</button>
-      <button id="new-match">Nouveau Combat</button>
-      <button onclick="playGongSound()">Tester le Gong</button>
-    </div>
+        <div>
+          <div id="winner-display" style="display: none">
+            <!-- Initially hidden -->
+            <span id="winner-text">🏅 Vainqueur: </span>
+            <span id="winner-color" style="color: white"></span>
+            <!-- Text will be Judoka Blanc or Judoka Rouge -->
+          </div>
+          <button class="btn-1" id="designate-winner">
+            🏅 Afficher Vainqueur
+          </button>
+        </div>
+      </div>
+    </section>
 
     <!-- Nom des judokas-->
     <div class="name-container">
-      <div class="judoka-info" id="white-judoka-info">
-        <h3>Judoka Blanc</h3>
+      <div class="judoka-info white" id="white-judoka-info">
+        <h3>Blanc (en cours)</h3>
         <input type="text" id="white-name" placeholder="Nom du Judoka Blanc" />
         <input type="text" id="white-club" placeholder="Club du Judoka Blanc" />
       </div>
-      <div class="judoka-info" id="red-judoka-info">
-        <h3>Judoka Rouge</h3>
+      <div class="judoka-info red" id="red-judoka-info">
+        <h3>Rouge (en cours)</h3>
         <input type="text" id="red-name" placeholder="Nom du Judoka Rouge" />
         <input type="text" id="red-club" placeholder="Club du Judoka Rouge" />
       </div>
     </div>
 
     <div class="scores-container">
-      <div class="score" id="white">
-        <h2>Score Blanc</h2>
+      <div class="score white" id="white">
+        <h2 class="title-h2">Score</h2>
         <div class="points">
-          <span>Ippon: <span id="white-ippon">0</span></span>
-          <button onclick="modifyScore('white', 'ippon', 1)">+</button>
-          <button onclick="modifyScore('white', 'ippon', -1)">-</button>
-          <hr />
-          <span>Waza-Ari: <span id="white-wazari">0</span></span>
-          <button onclick="modifyScore('white', 'wazari', 1)">+</button>
-          <button onclick="modifyScore('white', 'wazari', -1)">-</button>
-          <hr />
-          <span>Kinza: <span id="white-kinza">0</span></span>
-          <button onclick="modifyScore('white', 'kinza', 1)">+</button>
-          <button onclick="modifyScore('white', 'kinza', -1)">-</button>
+          <div class="row">
+            <span
+              >Ippon: <span class="big-number" id="white-ippon">0</span></span
+            >
+            <div class="column">
+              <button class="btn-1" onclick="modifyScore('white', 'ippon', 1)">
+                ➕
+              </button>
+              <button class="btn-1" onclick="modifyScore('white', 'ippon', -1)">
+                ➖
+              </button>
+            </div>
+          </div>
+          <div class="separator"></div>
+          <div class="row">
+            <span
+              >Waza-Ari:
+              <span class="big-number" id="white-wazari">0</span></span
+            >
+            <div class="column">
+              <button class="btn-1" onclick="modifyScore('white', 'wazari', 1)">
+                ➕
+              </button>
+              <button
+                class="btn-1"
+                onclick="modifyScore('white', 'wazari', -1)"
+              >
+                ➖
+              </button>
+            </div>
+          </div>
+          <div class="separator"></div>
+          <div class="row">
+            <span
+              >Kinza: <span class="big-number" id="white-kinza">0</span></span
+            >
+            <div class="column">
+              <button class="btn-1" onclick="modifyScore('white', 'kinza', 1)">
+                ➕
+              </button>
+              <button class="btn-1" onclick="modifyScore('white', 'kinza', -1)">
+                ➖
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="score" id="red">
-        <h2>Score Rouge</h2>
+      <div class="score red" id="red">
+        <h2 class="title-h2">Score</h2>
         <div class="points">
-          <span>Ippon: <span id="red-ippon">0</span></span>
-          <button onclick="modifyScore('red', 'ippon', 1)">+</button>
-          <button onclick="modifyScore('red', 'ippon', -1)">-</button>
-          <hr />
-          <span>Waza-Ari: <span id="red-wazari">0</span></span>
-          <button onclick="modifyScore('red', 'wazari', 1)">+</button>
-          <button onclick="modifyScore('red', 'wazari', -1)">-</button>
-          <hr />
-          <span>Kinza: <span id="red-kinza">0</span></span>
-          <button onclick="modifyScore('red', 'kinza', 1)">+</button>
-          <button onclick="modifyScore('red', 'kinza', -1)">-</button>
+          <div class="row">
+            <span>Ippon: <span class="big-number" id="red-ippon">0</span></span>
+            <div class="column">
+              <button class="btn-1" onclick="modifyScore('red', 'ippon', 1)">
+                ➕
+              </button>
+              <button class="btn-1" onclick="modifyScore('red', 'ippon', -1)">
+                ➖
+              </button>
+            </div>
+          </div>
+          <div class="separator"></div>
+          <div class="row">
+            <span
+              >Waza-Ari: <span class="big-number" id="red-wazari">0</span></span
+            >
+            <div class="column">
+              <button class="btn-1" onclick="modifyScore('red', 'wazari', 1)">
+                ➕
+              </button>
+              <button class="btn-1" onclick="modifyScore('red', 'wazari', -1)">
+                ➖
+              </button>
+            </div>
+          </div>
+          <div class="separator"></div>
+          <div class="row">
+            <span>Kinza: <span class="big-number" id="red-kinza">0</span></span>
+            <div class="column">
+              <button class="btn-1" onclick="modifyScore('red', 'kinza', 1)">
+                ➕
+              </button>
+              <button class="btn-1" onclick="modifyScore('red', 'kinza', -1)">
+                ➖
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Exemple pour le joueur blanc -->
     <div class="penalties-container">
-      <div class="penalties" id="white-penalties">
-        <h3>Pénalités Blanc</h3>
+      <div class="penalties white" id="white-penalties">
+        <h3 class="title-h2">Shido</h3>
         <div class="shido-container">
-          <button onclick="modifyShido('white', 1)">+</button>
-          <button onclick="modifyShido('white', -1)">-</button>
+          <button class="btn-1" onclick="modifyShido('white', -1)">➖</button>
+          <button class="btn-1" onclick="modifyShido('white', 1)">➕</button>
           <div id="white-shido-icons">
             <!-- Les icônes de Shido seront ajoutées ici par JavaScript -->
           </div>
         </div>
       </div>
-      <div class="penalties" id="red-penalties">
-        <h3>Pénalités Rouge</h3>
+      <div class="penalties red" id="red-penalties">
+        <h3 class="title-h2">Shido</h3>
         <div class="shido-container">
-          <button onclick="modifyShido('red', 1)">+</button>
-          <button onclick="modifyShido('red', -1)">-</button>
+          <button class="btn-1" onclick="modifyShido('red', -1)">➖</button>
+          <button class="btn-1" onclick="modifyShido('red', 1)">➕</button>
           <div id="red-shido-icons">
             <!-- Les icônes de Shido seront ajoutées ici par JavaScript -->
           </div>
@@ -119,48 +203,58 @@
     <!-- Exemple pour le joueur blanc -->
 
     <div class="osaekomi-container">
-      <div class="immobilization" id="white-immobilization">
-        <h3>Immobilisations Blanc</h3>
+      <div class="immobilization white" id="white-immobilization">
+        <h3 class="title-h2">Immobilisations Blanc</h3>
         <div class="time-display" id="osaekomi-white-timer">0s</div>
         <div id="osaekomi-white-progress"></div>
-        <button onclick="startImmobilization('white')" id="white-osae-komi">
-          Osae-Komi
-        </button>
-        <button onclick="stopImmobilization('white')" id="white-toketa">
-          Toketa
+        <button
+          class="btn-1"
+          onclick="startImmobilization('white')"
+          id="white-osae-komi"
+        >
+          ▶️ Osae-Komi
         </button>
         <button
+          class="btn-1"
+          onclick="stopImmobilization('white')"
+          id="white-toketa"
+        >
+          ⏯️ Toketa
+        </button>
+        <button
+          class="btn-1"
           onclick="resetImmobilization('white')"
           id="white-reset-osae-komi"
         >
-          Réinitialiser
+          🔄 Réinitialiser
         </button>
       </div>
 
-      <div class="immobilization" id="red-immobilization">
-        <h3>Immobilisations Rouge</h3>
+      <div class="immobilization red" id="red-immobilization">
+        <h3 class="title-h2">Immobilisations Rouge</h3>
         <div class="time-display" id="osaekomi-red-timer">0s</div>
         <div id="osaekomi-red-progress"></div>
-        <button onclick="startImmobilization('red')" id="red-osae-komi">
-          Osae-Komi
+        <button
+          class="btn-1"
+          onclick="startImmobilization('red')"
+          id="red-osae-komi"
+        >
+          ▶️ Osae-Komi
         </button>
-        <button onclick="stopImmobilization('red')" id="red-toketa">
-          Toketa
+        <button
+          class="btn-1"
+          onclick="stopImmobilization('red')"
+          id="red-toketa"
+        >
+          ⏯️ Toketa
         </button>
-        <button onclick="resetImmobilization('red')" id="red-reset-osae-komi">
-          Réinitialiser
+        <button
+          class="btn-1"
+          onclick="resetImmobilization('red')"
+          id="red-reset-osae-komi"
+        >
+          🔄 Réinitialiser
         </button>
-      </div>
-    </div>
-
-    <!-- Désignation Vainqueur -->
-    <div>
-      <button id="designate-winner">Désigner Vainqueur</button>
-      <div id="winner-display" style="display: none">
-        <!-- Initially hidden -->
-        <span id="winner-text">Vainqueur: </span>
-        <span id="winner-color" style="color: white"></span>
-        <!-- Text will be Judoka Blanc or Judoka Rouge -->
       </div>
     </div>
 
@@ -169,9 +263,9 @@
     <br />
 
     <!-- Prochains combattants -->
-    <div class="next-fighters">
-      <div>
-        <label for="next-white-name">Prochain Judoka Blanc :</label>
+    <div class="next-fighters name-container">
+      <div class="judoka-info white">
+        <h3>Blanc (prochain combat)</h3>
         <input
           type="text"
           id="next-white-name"
@@ -183,8 +277,8 @@
           placeholder="Club du Judoka Blanc"
         />
       </div>
-      <div>
-        <label for="next-red-name">Prochain Judoka Rouge :</label>
+      <div class="judoka-info red">
+        <h3>Rouge (prochain combat)</h3>
         <input
           type="text"
           id="next-red-name"
@@ -196,12 +290,24 @@
           placeholder="Club du Judoka Rouge"
         />
       </div>
-      <div class="next-fighters-controls">
-        <button id="validate-next-fight">Valider prochain combat</button>
-      </div>
+    </div>
+
+    <div class="next-fighters-controls">
+      <button id="validate-next-fight">Annoncer Prochain Combat</button>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/script.js"></script>
+    <script>
+      // Supposons que vous ayez déjà chargé la bibliothèque Socket.IO et défini tableId
+      const socket = io(); // Initialiser la connexion socket
+
+      // Rejoindre la room de la table spécifique dès que possible
+      socket.on("connect", () => {
+        socket.emit("joinTable", tableId); // Utiliser l'ID de table dynamique
+      });
+
+      // ... votre logique de socket supplémentaire ...
+    </script>
   </body>
 </html>

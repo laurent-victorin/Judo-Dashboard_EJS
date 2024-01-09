@@ -26,18 +26,47 @@ body {
 #animation-banner {
   grid-area: 1 / 1 / 2 / 9;
   background-color: #111;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+  display: grid;
   height: 110px;
   background-color: #111;
   color: white;
   padding: 10px 30px;
   text-transform: uppercase;
-  font-size: 50px;
-  font-weight: 600;
   line-height: .5;
+}
+
+.top-container {
+  display: flex;
+  grid-template-columns: 9fr 1fr;
+  gap: 20px;
+  align-items: center;
+  width: 100%;
+}
+
+.animation_next{
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+#animation-name-display{
+  font-size: 60px;
+  font-weight: 700;
+  margin-bottom: 35px;
+}
+
+#upcoming-fight {
+  font-size: 35px;
+  font-weight: 700;
+}
+
+#club-logo{
+  height: 100px;
+  width: 100px;
+  object-fit: cover;
+  align-items: end;
+  margin: auto;
 }
 
 .info-white-container {
@@ -56,9 +85,11 @@ body {
 
 #white-name-display,
 #red-name-display {
-  font-size: 80px;
+  font-size: 120px;
+  letter-spacing: -5px;
   text-transform: uppercase;
   font-weight: 600;
+  line-height: 10px;
 }
 
 #white-club-display,
@@ -218,23 +249,6 @@ body {
 
 /*------------------------------------------*/
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .progress-bar {
   height: 30px;
   /* Hauteur de la barre */
@@ -280,8 +294,55 @@ body {
       /* Démarre pleine, sera ajustée dynamiquement */
 }
 
+.tapis-number{
+  font-size: 100px;
+}
 
-#upcoming-fight{
-  font-size: 30px;
-  font-weight: 500;
+
+/* Style pour la modale */
+.modal {
+  display: none;
+  /* Masqué par défaut */
+  position: fixed;
+  /* Rester en place */
+  z-index: 1;
+  /* Situé au-dessus des autres éléments */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Pleine largeur */
+  height: 100%;
+  /* Pleine hauteur */
+  overflow: auto;
+  /* Activer le défilement si nécessaire */
+  background-color: rgb(0, 0, 0);
+  /* Couleur de fond */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Noir avec opacité */
+}
+
+/* Style du contenu de la modale */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  /* 15% depuis le haut et centré */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  /* Largeur */
+}
+
+/* Bouton pour fermer la modale */
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }

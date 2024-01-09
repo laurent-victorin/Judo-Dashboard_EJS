@@ -10,17 +10,29 @@
     <div id="display-container">
       /* Nom Animation & logo */
       <div id="animation-banner">
-        <div>
-          <div id="animation-name-display">Nom de l'animation</div>
-          <img id="club-logo" src="" alt="" style="height: 100px" />
-        </div>
-        <!-- Procchains combattants -->
-        <div id="upcoming-fight" style="color: white">
-          Prochain combat :
-          <span id="upcoming-red" style="color: red"></span>
-          (<span id="upcoming-red-club" style="color: red"></span>) /
-          <span id="upcoming-white" style="color: white"></span>
-          (<span id="upcoming-white-club" style="color: white"></span>)
+        <div class="top-container">
+          <div class="animation_next">
+            <div>
+              <span class="tapis-number"><%= tableNum %></span>
+              <div id="animation-name-display">
+                Tapis <%= tableNum %> : Nom de l'animation
+              </div>
+            </div>
+            <!-- Prochains combattants -->
+            <div id="upcoming-fight" style="color: white">
+              Prochain combat :
+              <span id="upcoming-red" style="color: red"></span>
+              (<span id="upcoming-red-club" style="color: red"></span>) /
+              <span id="upcoming-white" style="color: white"></span>
+              (<span id="upcoming-white-club" style="color: white"></span>)
+            </div>
+          </div>
+          <img
+            id="club-logo"
+            src="https://cdn-icons-png.flaticon.com/512/693/693695.png"
+            alt=""
+            style="height: 100px"
+          />
         </div>
       </div>
 
@@ -111,7 +123,29 @@
       </div>
     </div>
 
+    <!-- Modale du Vainqueur -->
+    <div id="winnerModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button" onclick="toggleModal()">&times;</span>
+        <h2>Informations du Vainqueur</h2>
+        <p id="modalWinnerText">
+          Le nom du gagnant et les scores seront affichés ici.
+        </p>
+      </div>
+    </div>
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/display.js"></script>
+    <script>
+      // Supposons que vous ayez déjà chargé la bibliothèque Socket.IO et défini tableId
+      const socket = io(); // Initialiser la connexion socket
+
+      // Rejoindre la room de la table spécifique dès que possible
+      socket.on("connect", () => {
+        socket.emit("joinTable", tableId); // Utiliser l'ID de table dynamique
+      });
+
+      // ... votre logique de socket supplémentaire ...
+    </script>
   </body>
 </html>

@@ -70,6 +70,7 @@ function modifyScore(player, pointType, amount) {
   let currentScore = parseInt(scoreSpan.textContent);
   currentScore += amount;
   if (currentScore < 0) currentScore = 0; // Prevent negative scores
+  if (currentScore > 9) currentScore = 9; // Prevent >9
   scoreSpan.textContent = currentScore;
   // Envoyer le score mis à jour au serveur
   socket.emit("score update", { player, pointType, score: currentScore });
@@ -271,70 +272,129 @@ function updateImmobilizationDisplay(playerColor, time) {
   });
 }
 
-// Nouveau Combat //
 // Fonction pour réinitialiser tous les chronomètres et scores
 function resetAll() {
-  // Transférer les informations des prochains combattants aux champs actuels
-  const nextWhiteName = document.getElementById("next-white-name").value;
-  const nextWhiteClub = document.getElementById("next-white-club").value;
-  const nextRedName = document.getElementById("next-red-name").value;
-  const nextRedClub = document.getElementById("next-red-club").value;
-  // Mettre à jour les inputs actuels
-  document.getElementById("white-name").value = nextWhiteName;
-  document.getElementById("white-club").value = nextWhiteClub;
-  document.getElementById("red-name").value = nextRedName;
-  document.getElementById("red-club").value = nextRedClub;
-
-  // Envoyer les informations mises à jour au serveur
-  socket.emit("update names", {
-    white: nextWhiteName,
-    red: nextRedName,
-    whiteClub: nextWhiteClub,
-    redClub: nextRedClub,
-  });
-
-  // Envoyer également les informations des prochains combattants pour mise à jour du display
-  socket.emit("update upcoming fighters", {
-    nextWhiteName,
-    nextWhiteClub,
-    nextRedName,
-    nextRedClub,
-  });
+  // Transférer les informations des prochains combattants aux champs actuels et effacer les champs des prochains combattants
+  transferAndClearFighterInfo();
 
   // Réinitialiser les scores, Shido, et immobilisations pour chaque joueur
-  ["white", "red"].forEach((playerColor) => {
-    resetScores(playerColor);
-    shidoCount[playerColor] = 0;
-    updateShidoDisplay(playerColor);
-    resetImmobilization(playerColor);
-  });
+  resetScoresAndPenalties();
 
-  // Réinitialiser le chronomètre principal
+  // Réinitialiser le chronomètre principal au temps prédéfini
+  selectedTime = parseInt(timeSelect.options[timeSelect.selectedIndex].value);
   resetTimer();
 
-  // Function to reset scores of each player
-  function resetScores(playerColor) {
-    const scoreTypes = ["ippon", "wazari", "kinza"]; // Add other score types if any
-    scoreTypes.forEach((type) => {
-      const scoreElement = document.getElementById(`${playerColor}-${type}`);
-      if (scoreElement) scoreElement.textContent = "0";
-    });
-  }
+  // Envoyer un événement au serveur pour réinitialiser l'affichage
 
-  // Assurez-vous que cette fonction est appelée lorsque le bouton est cliqué
-  document.getElementById("new-match").addEventListener("click", resetAll);
-
-  // Remettre la durée par défaut (3 minutes par exemple)
-  // selectedTime = 180;
-  selectedTime = timeSelect.value;
-  timeSelect.value = selectedTime.toString();
-  updateTimerDisplay();
-
-  // Emit an event to the server to reset display as well
+  socket.emit("update names", {
+    white: document.getElementById("white-name").value,
+    red: document.getElementById("red-name").value,
+  });
+  socket.emit("winner data", {
+    winner: "Égalité",
+    whiteScore: 0,
+    redScore: 0,
+  });
+  socket.emit("score update");
   socket.emit("reset display");
-
-  socket.emit("reset all");
 }
+
+// Transférer les informations des prochains combattants aux champs actuels et les effacer
+function transferAndClearFighterInfo() {
+  ["white", "red"].forEach((color) => {
+    document.getElementById(`${color}-name`).value = document.getElementById(
+      `next-${color}-name`
+    ).value;
+    document.getElementById(`${color}-club`).value = document.getElementById(
+      `next-${color}-club`
+    ).value;
+    document.getElementById(`next-${color}-name`).value = "";
+    document.getElementById(`next-${color}-club`).value = "";
+  });
+}
+
+// Réinitialiser les scores, Shido, et immobilisations pour chaque joueur
+function resetScoresAndPenalties() {
+  ["white", "red"].forEach((playerColor) => {
+    ["ippon", "wazari", "kinza", "shido"].forEach((pointType) => {
+      if (pointType === "shido") {
+        shidoCount[playerColor] = 0;
+        updateShidoDisplay(playerColor);
+      } else {
+        document.getElementById(`${playerColor}-${pointType}`).textContent =
+          "0";
+      }
+    });
+    resetImmobilization(playerColor);
+  });
+}
+
+// Assurez-vous que cette fonction est appelée lorsque le bouton est cliqué
+document.getElementById("new-match").addEventListener("click", resetAll);
+
+// Nouveau Combat //
+// Fonction pour réinitialiser tous les chronomètres et scores
+// function resetAll() {
+//   // Transférer les informations des prochains combattants aux champs actuels
+//   const nextWhiteName = document.getElementById("next-white-name").value;
+//   const nextWhiteClub = document.getElementById("next-white-club").value;
+//   const nextRedName = document.getElementById("next-red-name").value;
+//   const nextRedClub = document.getElementById("next-red-club").value;
+//   // Mettre à jour les inputs actuels
+//   document.getElementById("white-name").value = nextWhiteName;
+//   document.getElementById("white-club").value = nextWhiteClub;
+//   document.getElementById("red-name").value = nextRedName;
+//   document.getElementById("red-club").value = nextRedClub;
+
+//   // Envoyer les informations mises à jour au serveur
+//   socket.emit("update names", {
+//     white: nextWhiteName,
+//     red: nextRedName,
+//     whiteClub: nextWhiteClub,
+//     redClub: nextRedClub,
+//   });
+
+//   // Envoyer également les informations des prochains combattants pour mise à jour du display
+//   socket.emit("update upcoming fighters", {
+//     nextWhiteName,
+//     nextWhiteClub,
+//     nextRedName,
+//     nextRedClub,
+//   });
+
+//   // Réinitialiser les scores, Shido, et immobilisations pour chaque joueur
+//   ["white", "red"].forEach((playerColor) => {
+//     resetScores(playerColor);
+//     shidoCount[playerColor] = 0;
+//     updateShidoDisplay(playerColor);
+//     resetImmobilization(playerColor);
+//   });
+
+//   // Réinitialiser le chronomètre principal
+//   resetTimer();
+
+//   // Function to reset scores of each player
+//   function resetScores(playerColor) {
+//     const scoreTypes = ["ippon", "wazari", "kinza"]; // Add other score types if any
+//     scoreTypes.forEach((type) => {
+//       const scoreElement = document.getElementById(`${playerColor}-${type}`);
+//       if (scoreElement) scoreElement.textContent = "0";
+//     });
+//   }
+
+//   // Assurez-vous que cette fonction est appelée lorsque le bouton est cliqué
+//   document.getElementById("new-match").addEventListener("click", resetAll);
+
+//   // Remettre la durée par défaut (3 minutes par exemple)
+//   // selectedTime = 180;
+//   selectedTime = timeSelect.value;
+//   timeSelect.value = selectedTime.toString();
+//   updateTimerDisplay();
+
+//   // Emit an event to the server to reset display as well
+//   socket.emit("reset display");
+
+// }
 
 // Supposons que vous envoyez les données lorsqu'un bouton est cliqué ou après un événement 'change'
 document.getElementById("white-name").addEventListener("blur", function () {

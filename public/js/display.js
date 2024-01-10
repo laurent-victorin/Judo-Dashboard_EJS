@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", function () {
   socket.on("update names", function (data) {
     document.getElementById("white-name-display").textContent = data.white;
     document.getElementById("red-name-display").textContent = data.red;
+    document.getElementById("white-club-display").textContent = data.white;
+    document.getElementById("red-club-display").textContent = data.red;
   });
 
   /*-----------------------------------------------------------------------------------------------------*/
@@ -17,6 +19,24 @@ document.addEventListener("DOMContentLoaded", function () {
     // Mettre à jour les informations du club sur l'affichage
     document.getElementById("white-club-display").textContent = data.white;
     document.getElementById("red-club-display").textContent = data.red;
+  });
+
+  /*-----------------------------------------------------------------------------------------------------*/
+  // Réinitialiser l'affichage des prochains combattants
+  socket.on("reset upcoming fighters", function () {
+    document.getElementById("upcoming-red").textContent = "";
+    document.getElementById("upcoming-red-club").textContent = "";
+    document.getElementById("upcoming-white").textContent = "";
+    document.getElementById("upcoming-white-club").textContent = "";
+  });
+
+  // Affiche nouveau combattants
+  socket.on("update upcoming fighters", function (data) {
+    document.getElementById("upcoming-red").textContent = data.nextRedName;
+    document.getElementById("upcoming-red-club").textContent = data.nextRedClub;
+    document.getElementById("upcoming-white").textContent = data.nextWhiteName;
+    document.getElementById("upcoming-white-club").textContent =
+      data.nextWhiteClub;
   });
 
   /*-----------------------------------------------------------------------------------------------------*/
@@ -98,11 +118,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /*-----------------------------------------------------------------------------------------------------*/
   socket.on("reset display", function () {
-    // Réinitialiser les noms et les clubs
+    // Réinitialiser les noms et les clubsscores
     document.getElementById("white-name-display").textContent = "Judoka Blanc";
     document.getElementById("red-name-display").textContent = "Judoka Rouge";
-    document.getElementById("white-club-display").textContent = "Club :";
-    document.getElementById("red-club-display").textContent = "Club :";
+    document.getElementById("white-club-display").textContent = "Club";
+    document.getElementById("red-club-display").textContent = "Club";
 
     // Réinitialiser les scores
     ["white", "red"].forEach((playerColor) => {
@@ -167,22 +187,5 @@ document.addEventListener("DOMContentLoaded", function () {
       "modalWinnerText"
     ).textContent = `${data.winner}: Blanc (${data.whiteScore}) contre Rouge (${data.redScore})`;
     toggleModal(); // Ouverture automatique de la modale avec les informations
-  });
-
-  // Réinitialiser l'affichage des prochains combattants
-  socket.on("reset upcoming fighters", function () {
-    document.getElementById("upcoming-red").textContent = "";
-    document.getElementById("upcoming-red-club").textContent = "";
-    document.getElementById("upcoming-white").textContent = "";
-    document.getElementById("upcoming-white-club").textContent = "";
-  });
-
-  // Affiche nouveau combattants
-  socket.on("update upcoming fighters", function (data) {
-    document.getElementById("upcoming-red").textContent = data.nextRedName;
-    document.getElementById("upcoming-red-club").textContent = data.nextRedClub;
-    document.getElementById("upcoming-white").textContent = data.nextWhiteName;
-    document.getElementById("upcoming-white-club").textContent =
-      data.nextWhiteClub;
   });
 });

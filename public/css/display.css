@@ -366,6 +366,29 @@ body {
   justify-content: center;
   font-size: 50px;
   font-weight: 600;
+  line-height: 50px;
+}
+
+.redtextLeft{
+  color: red;
+  padding-left: 10px;
+}
+
+.redtextRight {
+  color: red;
+  padding-right: 10px;
+}
+
+.whitetextLeft {
+  padding-left: 10px;
+}
+
+.whitetextRight {
+  padding-right: 10px;
+}
+
+#upcoming-red, #upcoming-white{
+  padding-left: 15px;
 }
 
 /*-----------------------------------*/

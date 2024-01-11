@@ -131,75 +131,72 @@ io.on("connection", (socket) => {
     });
   });
 
-  // Handle socket connections
-  io.on("connection", function (socket) {
-    // Handle animation name & logo
-    socket.on("update animation", function (data) {
-      // Broadcasting the update to all connected clients
-      io.emit("update animation", data);
-    });
-
-    // Handle updating names
-    socket.on("update names", function (data) {
-      io.emit("update names", data);
-    });
-
-    // Handle updating clubs
-    socket.on("update clubs", function (data) {
-      io.emit("update clubs", data);
-    });
-
-    // Handle timer updates
-    socket.on("timer update", function (timeRemaining) {
-      io.emit("timer update", timeRemaining);
-    });
-
-    // Handle score updates
-    socket.on("score update", function (data) {
-      io.emit("score update", data);
-    });
-
-    // Handle shido updates
-    socket.on("shido update", function (data) {
-      io.emit("shido update", data);
-    });
-
-    // Handle osaekomi timer updates
-    socket.on("update osaekomi", function (data) {
-      io.emit("update osaekomi", data);
-    });
-
-    // Écouter l'événement 'reset all' pour réinitialiser l'affichage
-    socket.on("reset all", function () {
-      // Réinitialiser l'état du serveur si nécessaire
-
-      // Envoyer un événement pour réinitialiser l'affichage sur tous les clients
-      io.emit("reset display");
-    });
-
-    socket.on("designate winner", function (data) {
-      // Broadcast the winner to all clients
-      io.emit("update winner", data);
-    });
-
-    socket.on("toggle winner modal", () => {
-      // Transmettre l'information pour afficher/masquer la modale
-      io.emit("toggle winner modal display");
-    });
-
-    socket.on("update upcoming fighters", function (data) {
-      // Retransmettre les informations des prochains combattants à tous les clients
-      io.emit("update upcoming fighters", data);
-    });
-
-    socket.on("reset upcoming fighters", function () {
-      // Retransmettre l'ordre de réinitialisation à tous les clients
-      io.emit("reset upcoming fighters");
-    });
-
-    // Handle disconnect
-    socket.on("disconnect", () => {});
+  // Handle animation name & logo
+  socket.on("update animation", function (data) {
+    // Broadcasting the update to all connected clients
+    io.emit("update animation", data);
   });
+
+  // Handle updating names
+  socket.on("update names", function (data) {
+    io.emit("update names", data);
+  });
+
+  // Handle updating clubs
+  socket.on("update clubs", function (data) {
+    io.emit("update clubs", data);
+  });
+
+  // Handle timer updates
+  socket.on("timer update", function (timeRemaining) {
+    io.emit("timer update", timeRemaining);
+  });
+
+  // Handle score updates
+  socket.on("score update", function (data) {
+    io.emit("score update", data);
+  });
+
+  // Handle shido updates
+  socket.on("shido update", function (data) {
+    io.emit("shido update", data);
+  });
+
+  // Handle osaekomi timer updates
+  socket.on("update osaekomi", function (data) {
+    io.emit("update osaekomi", data);
+  });
+
+  // Écouter l'événement 'reset all' pour réinitialiser l'affichage
+  socket.on("reset all", function () {
+    // Réinitialiser l'état du serveur si nécessaire
+
+    // Envoyer un événement pour réinitialiser l'affichage sur tous les clients
+    io.emit("reset display");
+  });
+
+  socket.on("designate winner", function (data) {
+    // Broadcast the winner to all clients
+    io.emit("update winner", data);
+  });
+
+  socket.on("winner data", function (winnerData) {
+    // Transmettre l'information pour afficher/masquer la modale
+    io.emit("winner data", winnerData);
+  });
+
+  socket.on("update upcoming fighters", function (data) {
+    // Retransmettre les informations des prochains combattants à tous les clients
+    io.emit("update upcoming fighters", data);
+  });
+
+  socket.on("reset upcoming fighters", function () {
+    // Retransmettre l'ordre de réinitialisation à tous les clients
+    io.emit("reset upcoming fighters");
+  });
+
+  // Handle disconnect
+  socket.on("disconnect", () => {});
 });
 
 server.listen(3000, () => {

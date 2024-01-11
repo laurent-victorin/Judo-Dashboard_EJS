@@ -25,7 +25,7 @@ body {
   grid-template-columns: 1fr 1fr;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
   /* width: 100%; */
 }
 
@@ -62,13 +62,17 @@ label {
   border: 1px solid #ccc;
   box-shadow: 2px 2px 0px rgba(0, 0, 0, .3);
   transition: all 0.3s ease;
-  /* width: 100%; */
 }
 
 .btn-1:hover {
   cursor: pointer;
   box-shadow: 1px 1px 0px rgba(0, 0, 0, .3);
   border: 1px solid #666;
+}
+
+.btn-1.active {
+  background-color: green;
+  color: white;
 }
 
 .red {
@@ -89,6 +93,7 @@ label {
 
 .chrono-container{
   background-color: rgb(194, 145, 255);
+  width: 100%;
 }
 
 .left{
@@ -127,15 +132,24 @@ label {
 }
 
 #time-select{
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   width: 100%;
+  height: 30px;
 }
 
 .titre-table {
   font-size: 30px;
   font-weight: 600;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  background-color: #111;
+  color: #FFF;
+  width: 100%;
+  padding: 15px;
+}
+
+#set-time, #designate-winner{
+width: 100%;
 }
 
 /*-- Animation --*/
@@ -163,14 +177,21 @@ label {
   height: 100%;
 }
 
+.penalties-container{
+  max-height: 100px;
+}
+
 .score,
 .penalties,
 .immobilization,
-.judoka-info {
+.judoka-info,
+.next-judoka-info {
   border: 1px solid #111;
   padding: 10px;
   /* margin: 5px 0; */
   width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 
@@ -270,6 +291,12 @@ label {
   border-radius: 5%;
   border: 1px solid black;
   padding: 5px;
+  font-size: 20px;
+}
+
+.btn-shido{
+  margin-right: 10px;
+  margin-top: 5px;
 }
 
 .shido-icon>span {
@@ -291,23 +318,48 @@ label {
   font-weight: 600;
   text-align: center;
   color: #111;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  border: 1px solid #444;
 }
 
 #winner-display{
   width: 100%;
-  margin-top: 25px;
+  margin-top: 15px;
   padding: 15px;
   text-align: center;
   font-size: 15px;
   font-weight: 600;
+  margin-bottom: 15px;
 }
 
 #winner-text, #winner-color{
   color: white;
 }
 
-
 .icon{
   font-size: 16px;
   line-height: 1.2;
+}
+
+#red-reset-osae-komi, #white-reset-osae-komi{
+  margin-top: 10px;
+}
+
+#next-white-name, #next-red-name{
+  margin-top: 10px;
+}
+
+#validate-next-fight{
+  width: 100%;
+  margin-top: 5px;
+}
+
+#designate-winner{
+    margin-top: 5px;
+}
+
+#white-name, #white-club, #red-name, #red-club, #next-white-name, #next-red-name,
+#next-white-club, #next-red-club{
+  height: 35px;
 }

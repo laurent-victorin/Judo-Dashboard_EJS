@@ -332,70 +332,6 @@ function resetScoresAndPenalties() {
 // Assurez-vous que cette fonction est appelée lorsque le bouton est cliqué
 document.getElementById("new-match").addEventListener("click", resetAll);
 
-// Nouveau Combat //
-// Fonction pour réinitialiser tous les chronomètres et scores
-// function resetAll() {
-//   // Transférer les informations des prochains combattants aux champs actuels
-//   const nextWhiteName = document.getElementById("next-white-name").value;
-//   const nextWhiteClub = document.getElementById("next-white-club").value;
-//   const nextRedName = document.getElementById("next-red-name").value;
-//   const nextRedClub = document.getElementById("next-red-club").value;
-//   // Mettre à jour les inputs actuels
-//   document.getElementById("white-name").value = nextWhiteName;
-//   document.getElementById("white-club").value = nextWhiteClub;
-//   document.getElementById("red-name").value = nextRedName;
-//   document.getElementById("red-club").value = nextRedClub;
-
-//   // Envoyer les informations mises à jour au serveur
-//   socket.emit("update names", {
-//     white: nextWhiteName,
-//     red: nextRedName,
-//     whiteClub: nextWhiteClub,
-//     redClub: nextRedClub,
-//   });
-
-//   // Envoyer également les informations des prochains combattants pour mise à jour du display
-//   socket.emit("update upcoming fighters", {
-//     nextWhiteName,
-//     nextWhiteClub,
-//     nextRedName,
-//     nextRedClub,
-//   });
-
-//   // Réinitialiser les scores, Shido, et immobilisations pour chaque joueur
-//   ["white", "red"].forEach((playerColor) => {
-//     resetScores(playerColor);
-//     shidoCount[playerColor] = 0;
-//     updateShidoDisplay(playerColor);
-//     resetImmobilization(playerColor);
-//   });
-
-//   // Réinitialiser le chronomètre principal
-//   resetTimer();
-
-//   // Function to reset scores of each player
-//   function resetScores(playerColor) {
-//     const scoreTypes = ["ippon", "wazari", "kinza"]; // Add other score types if any
-//     scoreTypes.forEach((type) => {
-//       const scoreElement = document.getElementById(`${playerColor}-${type}`);
-//       if (scoreElement) scoreElement.textContent = "0";
-//     });
-//   }
-
-//   // Assurez-vous que cette fonction est appelée lorsque le bouton est cliqué
-//   document.getElementById("new-match").addEventListener("click", resetAll);
-
-//   // Remettre la durée par défaut (3 minutes par exemple)
-//   // selectedTime = 180;
-//   selectedTime = timeSelect.value;
-//   timeSelect.value = selectedTime.toString();
-//   updateTimerDisplay();
-
-//   // Emit an event to the server to reset display as well
-//   socket.emit("reset display");
-
-// }
-
 // Supposons que vous envoyez les données lorsqu'un bouton est cliqué ou après un événement 'change'
 document.getElementById("white-name").addEventListener("blur", function () {
   socket.emit("update names", {
@@ -426,10 +362,6 @@ document.getElementById("red-club").addEventListener("blur", function () {
     red: this.value,
   });
 });
-
-// Répétez pour le combattant rouge ou tout autre élément que vous souhaitez synchroniser
-
-// script.js
 
 // Désigner le vainqueur
 function designateWinner() {
@@ -485,8 +417,6 @@ function tieBreaker(whitePoints, redPoints) {
     }
   }
 }
-
-// script.js
 
 // Mettez à jour selon la nouvelle structure de displayWinner
 function displayWinner(winner, whiteScore, redScore) {

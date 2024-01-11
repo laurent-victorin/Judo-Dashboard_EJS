@@ -170,22 +170,38 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   /*-----------------------------------------------------------------------------*/
-  // Désignation Vainqueur
+  // Affichage de la modale
   socket.on("toggle winner modal display", () => {
-    const winnerModal = document.getElementById("winnerModal"); // Remplacez par l'ID de votre modale
-    winnerModal.classList.toggle("show"); // Toggle la classe "show" pour afficher/masquer
+    const winnerModal = document.getElementById("winnerModal");
+    winnerModal.classList.toggle("show");
   });
 
-  function toggleModal() {
-    var modal = document.getElementById("winnerModal");
-    modal.style.display = modal.style.display === "block" ? "none" : "block";
-  }
+  // function toggleWinnerModalDisplay(winnerData) {
+  //   const winnerModal = document.getElementById("winnerModal");
 
-  // Vous pouvez ajouter ce code à la réception des données du gagnant
-  socket.on("winner data", (data) => {
+  //   // Mise à jour des informations
+  //   document.getElementById("modalWinnerColorText").textContent =
+  //     winnerData.color === "Blanc" ? "Judoka Blanc" : "Judoka Rouge";
+  //   document.getElementById("modalWinnerNameText").textContent =
+  //     winnerData.name;
+  //   document.getElementById("modalWinnerClubText").textContent =
+  //     winnerData.club;
+  //   document.getElementById(
+  //     "modalWinnerResultsText"
+  //   ).textContent = `Score: ${winnerData.points}`;
+
+  //   winnerModal.classList.toggle("show");
+  // }
+
+  socket.on("update winner modal display", (winnerData) => {
+    document.getElementById("modalWinnerColorText").textContent =
+      winnerData.color;
+    document.getElementById("modalWinnerNameText").textContent =
+      winnerData.name;
+    document.getElementById("modalWinnerClubText").textContent =
+      winnerData.club;
     document.getElementById(
-      "modalWinnerText"
-    ).textContent = `${data.winner}: Blanc (${data.whiteScore}) contre Rouge (${data.redScore})`;
-    toggleModal(); // Ouverture automatique de la modale avec les informations
+      "modalWinnerResultsText"
+    ).textContent = `Points: ${winnerData.points}`;
   });
 });

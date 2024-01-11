@@ -67,7 +67,12 @@
           <button class="btn-1" id="designate-winner">
             🟥⬜ Désigner Vainqueur
           </button>
-          <button class="btn-1" id="display-winner">🥇 Affichage Ecran</button>
+        </div>
+
+        <div class="next-fighters-controls">
+          <button class="btn-1" id="validate-next-fight">
+            📣 Annoncer Prochain Combat
+          </button>
         </div>
       </div>
     </section>
@@ -75,12 +80,12 @@
     <!-- Nom des judokas-->
     <div class="name-container">
       <div class="judoka-info white" id="white-judoka-info">
-        <h3>Blanc (en cours)</h3>
+        <h3 class="title-h2">Blanc</h3>
         <input type="text" id="white-name" placeholder="Nom du Judoka Blanc" />
         <input type="text" id="white-club" placeholder="Club du Judoka Blanc" />
       </div>
       <div class="judoka-info red" id="red-judoka-info">
-        <h3>Rouge (en cours)</h3>
+        <h3 class="title-h2">Rouge</h3>
         <input type="text" id="red-name" placeholder="Nom du Judoka Rouge" />
         <input type="text" id="red-club" placeholder="Club du Judoka Rouge" />
       </div>
@@ -187,8 +192,12 @@
       <div class="penalties white" id="white-penalties">
         <h3 class="title-h2">Shido</h3>
         <div class="shido-container">
-          <button class="btn-1" onclick="modifyShido('white', -1)">➖</button>
-          <button class="btn-1" onclick="modifyShido('white', 1)">➕</button>
+          <button class="btn-1 btn-shido" onclick="modifyShido('white', -1)">
+            ➖
+          </button>
+          <button class="btn-1 btn-shido" onclick="modifyShido('white', 1)">
+            ➕
+          </button>
           <div id="white-shido-icons">
             <!-- Les icônes de Shido seront ajoutées ici par JavaScript -->
           </div>
@@ -197,8 +206,12 @@
       <div class="penalties red" id="red-penalties">
         <h3 class="title-h2">Shido</h3>
         <div class="shido-container">
-          <button class="btn-1" onclick="modifyShido('red', -1)">➖</button>
-          <button class="btn-1" onclick="modifyShido('red', 1)">➕</button>
+          <button class="btn-1 btn-shido" onclick="modifyShido('red', -1)">
+            ➖
+          </button>
+          <button class="btn-1 btn-shido" onclick="modifyShido('red', 1)">
+            ➕
+          </button>
           <div id="red-shido-icons">
             <!-- Les icônes de Shido seront ajoutées ici par JavaScript -->
           </div>
@@ -211,23 +224,25 @@
 
     <div class="osaekomi-container">
       <div class="immobilization white" id="white-immobilization">
-        <h3 class="title-h2">Immobilisations Blanc</h3>
+        <h3 class="title-h2">Osae-komi</h3>
         <div class="time-display" id="osaekomi-white-timer">0s</div>
         <div id="osaekomi-white-progress"></div>
-        <button
-          class="btn-1"
-          onclick="startImmobilization('white')"
-          id="white-osae-komi"
-        >
-          ▶️ Osae-Komi
-        </button>
-        <button
-          class="btn-1"
-          onclick="stopImmobilization('white')"
-          id="white-toketa"
-        >
-          ⏯️ Toketa
-        </button>
+        <div class="row">
+          <button
+            class="btn-1"
+            onclick="startImmobilization('white')"
+            id="white-osae-komi"
+          >
+            ▶️ Osae-Komi
+          </button>
+          <button
+            class="btn-1"
+            onclick="stopImmobilization('white')"
+            id="white-toketa"
+          >
+            ⏯️ Toketa
+          </button>
+        </div>
         <button
           class="btn-1"
           onclick="resetImmobilization('white')"
@@ -238,23 +253,25 @@
       </div>
 
       <div class="immobilization red" id="red-immobilization">
-        <h3 class="title-h2">Immobilisations Rouge</h3>
+        <h3 class="title-h2">Osae-komi</h3>
         <div class="time-display" id="osaekomi-red-timer">0s</div>
         <div id="osaekomi-red-progress"></div>
-        <button
-          class="btn-1"
-          onclick="startImmobilization('red')"
-          id="red-osae-komi"
-        >
-          ▶️ Osae-Komi
-        </button>
-        <button
-          class="btn-1"
-          onclick="stopImmobilization('red')"
-          id="red-toketa"
-        >
-          ⏯️ Toketa
-        </button>
+        <div class="row">
+          <button
+            class="btn-1"
+            onclick="startImmobilization('red')"
+            id="red-osae-komi"
+          >
+            ▶️ Osae-Komi
+          </button>
+          <button
+            class="btn-1"
+            onclick="stopImmobilization('red')"
+            id="red-toketa"
+          >
+            ⏯️ Toketa
+          </button>
+        </div>
         <button
           class="btn-1"
           onclick="resetImmobilization('red')"
@@ -271,8 +288,8 @@
 
     <!-- Prochains combattants -->
     <div class="next-fighters name-container">
-      <div class="judoka-info white">
-        <h3>Blanc (prochain combat)</h3>
+      <div class="next-judoka-info white">
+        <h3 class="title-h2">Prochain Blanc</h3>
         <input
           type="text"
           id="next-white-name"
@@ -284,8 +301,8 @@
           placeholder="Club du Judoka Blanc"
         />
       </div>
-      <div class="judoka-info red">
-        <h3>Rouge (prochain combat)</h3>
+      <div class="next-judoka-info red">
+        <h3 class="title-h2">Prochain Rouge</h3>
         <input
           type="text"
           id="next-red-name"
@@ -297,12 +314,6 @@
           placeholder="Club du Judoka Rouge"
         />
       </div>
-    </div>
-
-    <div class="next-fighters-controls">
-      <button class="btn-1" id="validate-next-fight">
-        📣 Annoncer Prochain Combat
-      </button>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>

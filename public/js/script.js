@@ -12,6 +12,42 @@ const hajimeButton = document.getElementById("start");
 const resetButton = document.getElementById("reset");
 const timeSelect = document.getElementById("time-select");
 const setTimeButton = document.getElementById("set-time");
+const addButton = document.getElementById("add-ten-seconds");
+const subtractButton = document.getElementById("subtract-ten-seconds");
+const addMinButton = document.getElementById("add-one-minute");
+const subtractMinButton = document.getElementById("subtract-one-minute");
+
+addButton.addEventListener("click", function () {
+  if (timeRemaining + 10 <= selectedTime) {
+    timeRemaining += 10;
+    updateTimerDisplay();
+    socket.emit("timer update", { timeRemaining, selectedTime });
+  }
+});
+
+subtractButton.addEventListener("click", function () {
+  if (timeRemaining - 10 >= 0) {
+    timeRemaining -= 10;
+    updateTimerDisplay();
+    socket.emit("timer update", { timeRemaining, selectedTime });
+  }
+});
+
+addMinButton.addEventListener("click", function () {
+  if (timeRemaining + 60 <= selectedTime) {
+    timeRemaining += 60;
+    updateTimerDisplay();
+    socket.emit("timer update", { timeRemaining, selectedTime });
+  }
+});
+
+subtractMinButton.addEventListener("click", function () {
+  if (timeRemaining - 60 >= 0) {
+    timeRemaining -= 60;
+    updateTimerDisplay();
+    socket.emit("timer update", { timeRemaining, selectedTime });
+  }
+});
 
 // Ajouter des écouteurs d'événements pour les boutons d'immobilisation
 document
@@ -333,14 +369,14 @@ function resetScoresAndPenalties() {
 document.getElementById("new-match").addEventListener("click", resetAll);
 
 // Supposons que vous envoyez les données lorsqu'un bouton est cliqué ou après un événement 'change'
-document.getElementById("white-name").addEventListener("blur", function () {
+document.getElementById("white-name").addEventListener("change", function () {
   socket.emit("update names", {
     white: this.value,
     red: document.getElementById("red-name").value,
   });
 });
 
-document.getElementById("red-name").addEventListener("blur", function () {
+document.getElementById("red-name").addEventListener("change", function () {
   socket.emit("update names", {
     red: this.value,
     white: document.getElementById("white-name").value,
@@ -348,7 +384,7 @@ document.getElementById("red-name").addEventListener("blur", function () {
 });
 
 // Exemple de gestion de l'entrée du club pour le judoka blanc
-document.getElementById("white-club").addEventListener("blur", function () {
+document.getElementById("white-club").addEventListener("change", function () {
   socket.emit("update clubs", {
     white: this.value,
     red: document.getElementById("red-club").value, // Assurez-vous que c'est la valeur actuelle
@@ -356,7 +392,7 @@ document.getElementById("white-club").addEventListener("blur", function () {
 });
 
 // Faites de même pour le club du judoka rouge
-document.getElementById("red-club").addEventListener("blur", function () {
+document.getElementById("red-club").addEventListener("change", function () {
   socket.emit("update clubs", {
     white: document.getElementById("white-club").value, // Assurez-vous que c'est la valeur actuelle
     red: this.value,

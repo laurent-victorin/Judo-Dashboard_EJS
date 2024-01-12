@@ -10,8 +10,6 @@ document.addEventListener("DOMContentLoaded", function () {
   socket.on("update names", function (data) {
     document.getElementById("white-name-display").textContent = data.white;
     document.getElementById("red-name-display").textContent = data.red;
-    document.getElementById("white-club-display").textContent = data.white;
-    document.getElementById("red-club-display").textContent = data.red;
   });
 
   /*-----------------------------------------------------------------------------------------------------*/

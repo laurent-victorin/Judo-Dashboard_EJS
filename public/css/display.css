@@ -456,3 +456,9 @@ body {
   cursor: pointer;
 }
 
+.smalltext{
+  font-size: 25px;
+  font-weight: 500;
+  line-height: 68px;
+}
+

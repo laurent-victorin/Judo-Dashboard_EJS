@@ -123,8 +123,9 @@ label {
 
 .img-gong{
   width: 75px;
-  margin-left: 100px;
   cursor: pointer;
+  margin-left: 50px ;
+  transform: translateY(50px);
 }
 
 .img-gong:hover{

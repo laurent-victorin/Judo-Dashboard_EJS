@@ -114,13 +114,23 @@ document.addEventListener("DOMContentLoaded", function () {
     // ...
   });
 
+  socket.on("update fighters info", function (data) {
+    document.getElementById("white-name-display").textContent = data.whiteName;
+    document.getElementById("white-club-display").textContent = data.whiteClub;
+    document.getElementById("red-name-display").textContent = data.redName;
+    document.getElementById("red-club-display").textContent = data.redClub;
+  });
+
   /*-----------------------------------------------------------------------------------------------------*/
   socket.on("reset display", function () {
     // Réinitialiser les noms et les clubsscores
-    document.getElementById("white-name-display").textContent = "Judoka Blanc";
-    document.getElementById("red-name-display").textContent = "Judoka Rouge";
-    document.getElementById("white-club-display").textContent = "Club";
-    document.getElementById("red-club-display").textContent = "Club";
+    // document.getElementById("white-name-display").textContent =
+    //   data.nextWhiteName;
+    // // document.getElementById("red-name-display").textContent = "Judoka Rouge";
+    // document.getElementById("red-name-display").textContent = data.nextRedName;
+    // document.getElementById("white-club-display").textContent =
+    //   data.nextWhiteClub;
+    // document.getElementById("red-club-display").textContent = data.nextRedClub;
 
     // Réinitialiser les scores
     ["white", "red"].forEach((playerColor) => {

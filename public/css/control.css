@@ -149,6 +149,11 @@ label {
   padding: 15px;
 }
 
+#updateAnimation{
+  width: 70%;
+  margin-left: 40px;
+}
+
 #set-time, #designate-winner{
 width: 100%;
 }
@@ -163,6 +168,7 @@ width: 100%;
 .input-animation{
   display: flex;
   width: 100%;
+  flex: 1;
 }
 
 /*-- Container --*/

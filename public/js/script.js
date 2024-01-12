@@ -311,7 +311,14 @@ function updateImmobilizationDisplay(playerColor, time) {
 // Fonction pour réinitialiser tous les chronomètres et scores
 function resetAll() {
   // Transférer les informations des prochains combattants aux champs actuels et effacer les champs des prochains combattants
-  transferAndClearFighterInfo();
+  // transferAndClearFighterInfo();
+
+  // socket.emit("update fighters info", {
+  //   whiteName: document.getElementById("white-name").value,
+  //   whiteClub: document.getElementById("white-club").value,
+  //   redName: document.getElementById("red-name").value,
+  //   redClub: document.getElementById("red-club").value,
+  // });
 
   // Réinitialiser les scores, Shido, et immobilisations pour chaque joueur
   resetScoresAndPenalties();
@@ -322,21 +329,13 @@ function resetAll() {
 
   // Envoyer un événement au serveur pour réinitialiser l'affichage
 
-  socket.emit("update names", {
-    white: document.getElementById("white-name").value,
-    red: document.getElementById("red-name").value,
-  });
-  socket.emit("winner data", {
-    winner: "Égalité",
-    whiteScore: 0,
-    redScore: 0,
-  });
   socket.emit("score update");
   socket.emit("reset display");
 }
 
 // Transférer les informations des prochains combattants aux champs actuels et les effacer
 function transferAndClearFighterInfo() {
+  alert("transfert and clear fighter Info");
   ["white", "red"].forEach((color) => {
     document.getElementById(`${color}-name`).value = document.getElementById(
       `next-${color}-name`
@@ -346,6 +345,24 @@ function transferAndClearFighterInfo() {
     ).value;
     document.getElementById(`next-${color}-name`).value = "";
     document.getElementById(`next-${color}-club`).value = "";
+
+    socket.emit("update fighters info", {
+      whiteName: document.getElementById("white-name").value,
+      whiteClub: document.getElementById("white-club").value,
+      redName: document.getElementById("red-name").value,
+      redClub: document.getElementById("red-club").value,
+    });
+
+    socket.emit("update names", {
+      white: document.getElementById("white-name").value,
+      red: document.getElementById("red-name").value,
+    });
+
+    socket.emit("update clubs", {
+      white: document.getElementById("white-club").value,
+      red: document.getElementById("red-club").value,
+    });
+    socket.emit("reset upcoming fighters");
   });
 }
 
@@ -365,8 +382,8 @@ function resetScoresAndPenalties() {
   });
 }
 
-// Assurez-vous que cette fonction est appelée lorsque le bouton est cliqué
-document.getElementById("new-match").addEventListener("click", resetAll);
+// // Assurez-vous que cette fonction est appelée lorsque le bouton est cliqué
+// document.getElementById("new-match").addEventListener("click", resetAll);
 
 // Supposons que vous envoyez les données lorsqu'un bouton est cliqué ou après un événement 'change'
 document.getElementById("white-name").addEventListener("change", function () {
@@ -490,17 +507,8 @@ function playGongSound() {
 
 // Lorsque "Nouveau Combat" est cliqué, mettez à jour les noms actuels avec les prochains combattants
 document.getElementById("new-match").addEventListener("click", function () {
-  // Transférer les informations des prochains combattants aux champs actuels
-  const nextWhiteName = document.getElementById("next-white-name").value;
-  const nextWhiteClub = document.getElementById("next-white-club").value;
-  const nextRedName = document.getElementById("next-red-name").value;
-  const nextRedClub = document.getElementById("next-red-club").value;
-
-  // Mettre à jour les inputs actuels
-  document.getElementById("white-name").value = nextWhiteName;
-  document.getElementById("white-club").value = nextWhiteClub;
-  document.getElementById("red-name").value = nextRedName;
-  document.getElementById("red-club").value = nextRedClub;
+  resetAll();
+  transferAndClearFighterInfo();
 
   // Envoyer les informations mises à jour au serveur
   socket.emit("update names", {
@@ -510,53 +518,8 @@ document.getElementById("new-match").addEventListener("click", function () {
     redClub: nextRedClub,
   });
 
-  // Réinitialiser les champs des prochains combattants
-  document.getElementById("next-white-name").value = "";
-  document.getElementById("next-white-club").value = "";
-  document.getElementById("next-red-name").value = "";
-  document.getElementById("next-red-club").value = "";
-
   // Réinitialiser également les informations du display pour les prochains combattants
   socket.emit("reset upcoming fighters");
-
-  // Supposons que vous envoyez les données lorsqu'un bouton est cliqué ou après un événement 'change'
-  document
-    .getElementById("next-white-name")
-    .addEventListener("change", function () {
-      socket.emit("update next names", {
-        white: this.value,
-        red: document.getElementById("next-red-name").value,
-      });
-    });
-
-  document
-    .getElementById("next-red-name")
-    .addEventListener("change", function () {
-      socket.emit("update next names", {
-        red: this.value,
-        white: document.getElementById("next-white-name").value,
-      });
-    });
-
-  // Exemple de gestion de l'entrée du club pour le judoka blanc
-  document
-    .getElementById("next-white-club")
-    .addEventListener("change", function () {
-      socket.emit("update next clubs", {
-        white: this.value,
-        red: document.getElementById("next-red-club").value, // Assurez-vous que c'est la valeur actuelle
-      });
-    });
-
-  // Faites de même pour le club du judoka rouge
-  document
-    .getElementById("next-red-club")
-    .addEventListener("change", function () {
-      socket.emit("update next clubs", {
-        white: document.getElementById("next-white-club").value, // Assurez-vous que c'est la valeur actuelle
-        red: this.value,
-      });
-    });
 });
 
 document

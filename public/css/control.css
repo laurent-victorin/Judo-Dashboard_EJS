@@ -38,7 +38,7 @@ body {
   /* width: 100%; */
 }
 
-.center{
+.center {
   align-items: center;
 }
 
@@ -85,25 +85,25 @@ label {
 
 
 /*- Chrono-Reset Container --*/
-.timer_animation_winner{
+.timer_animation_winner {
   display: grid;
   grid-template-columns: 1fr 1fr;
   width: 100%;
 }
 
-.chrono-container{
+.chrono-container {
   background-color: rgb(194, 145, 255);
   width: 100%;
 }
 
-.left{
+.left {
   margin: auto;
   padding: 15px;
   height: 100%;
   border: 1px solid #111;
 }
 
-.reset-new{
+.reset-new {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -111,7 +111,7 @@ label {
   justify-content: space-between;
 }
 
-.right{
+.right {
   display: grid;
   flex-direction: column;
   width: 100%;
@@ -121,18 +121,18 @@ label {
   background-color: rgb(194, 145, 255);
 }
 
-.img-gong{
+.img-gong {
   width: 75px;
   cursor: pointer;
-  margin-left: 50px ;
+  margin-left: 50px;
   transform: translateY(50px);
 }
 
-.img-gong:hover{
-  filter: drop-shadow(5px 5px 5px rgba(0,0,0,.3));
+.img-gong:hover {
+  filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, .3));
 }
 
-#time-select{
+#time-select {
   margin-bottom: 10px;
   width: 100%;
   height: 30px;
@@ -149,13 +149,14 @@ label {
   padding: 15px;
 }
 
-#updateAnimation{
+#updateAnimation {
   width: 70%;
   margin-left: 40px;
 }
 
-#set-time, #designate-winner{
-width: 100%;
+#set-time,
+#designate-winner {
+  width: 100%;
 }
 
 /*-- Animation --*/
@@ -165,7 +166,7 @@ width: 100%;
   align-items: center;
 }
 
-.input-animation{
+.input-animation {
   display: flex;
   width: 100%;
   flex: 1;
@@ -184,7 +185,7 @@ width: 100%;
   height: 100%;
 }
 
-.penalties-container{
+.penalties-container {
   max-height: 100px;
 }
 
@@ -224,7 +225,7 @@ width: 100%;
   width: 100%;
 }
 
-.btn-container1{
+.btn-container1 {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -246,26 +247,26 @@ width: 100%;
   gap: 15px;
 }
 
-.title-h2{
+.title-h2 {
   font-size: 20px;
   font-weight: 600;
   text-align: left;
 }
 
-.big-number{
+.big-number {
   font-size: 60px;
   font-weight: 600;
   margin: 0px 30px;
 }
 
-.separator{
+.separator {
   content: '';
   width: 100%;
   height: 1px;
   background-color: #000;
 }
 
-.points{
+.points {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -273,7 +274,7 @@ width: 100%;
   gap: 10px;
 }
 
-.points hr{
+.points hr {
   width: 100%;
   background-color: #111;
   color: #111;
@@ -301,7 +302,7 @@ width: 100%;
   font-size: 20px;
 }
 
-.btn-shido{
+.btn-shido {
   margin-right: 10px;
   margin-top: 5px;
 }
@@ -320,7 +321,8 @@ width: 100%;
 }
 
 
-#osaekomi-white-timer, #osaekomi-red-timer{
+#osaekomi-white-timer,
+#osaekomi-red-timer {
   font-size: 25px;
   font-weight: 600;
   text-align: center;
@@ -330,7 +332,7 @@ width: 100%;
   border: 1px solid #444;
 }
 
-#winner-display{
+#winner-display {
   width: 100%;
   margin-top: 15px;
   padding: 15px;
@@ -340,33 +342,42 @@ width: 100%;
   margin-bottom: 15px;
 }
 
-#winner-text, #winner-color{
+#winner-text,
+#winner-color {
   color: white;
 }
 
-.icon{
+.icon {
   font-size: 16px;
   line-height: 1.2;
 }
 
-#red-reset-osae-komi, #white-reset-osae-komi{
+#red-reset-osae-komi,
+#white-reset-osae-komi {
   margin-top: 10px;
 }
 
-#next-white-name, #next-red-name{
+#next-white-name,
+#next-red-name {
   margin-top: 10px;
 }
 
-#validate-next-fight{
+#validate-next-fight {
   width: 100%;
   margin-top: 5px;
 }
 
-#designate-winner{
-    margin-top: 5px;
+#designate-winner {
+  margin-top: 5px;
 }
 
-#white-name, #white-club, #red-name, #red-club, #next-white-name, #next-red-name,
-#next-white-club, #next-red-club{
+#white-name,
+#white-club,
+#red-name,
+#red-club,
+#next-white-name,
+#next-red-name,
+#next-white-club,
+#next-red-club {
   height: 35px;
 }

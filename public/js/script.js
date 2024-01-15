@@ -310,16 +310,6 @@ function updateImmobilizationDisplay(playerColor, time) {
 
 // Fonction pour réinitialiser tous les chronomètres et scores
 function resetAll() {
-  // Transférer les informations des prochains combattants aux champs actuels et effacer les champs des prochains combattants
-  // transferAndClearFighterInfo();
-
-  // socket.emit("update fighters info", {
-  //   whiteName: document.getElementById("white-name").value,
-  //   whiteClub: document.getElementById("white-club").value,
-  //   redName: document.getElementById("red-name").value,
-  //   redClub: document.getElementById("red-club").value,
-  // });
-
   // Réinitialiser les scores, Shido, et immobilisations pour chaque joueur
   resetScoresAndPenalties();
 
@@ -335,7 +325,6 @@ function resetAll() {
 
 // Transférer les informations des prochains combattants aux champs actuels et les effacer
 function transferAndClearFighterInfo() {
-  alert("transfert and clear fighter Info");
   ["white", "red"].forEach((color) => {
     document.getElementById(`${color}-name`).value = document.getElementById(
       `next-${color}-name`
@@ -380,6 +369,8 @@ function resetScoresAndPenalties() {
     });
     resetImmobilization(playerColor);
   });
+  socket.emit("score update");
+  socket.emit("reset display");
 }
 
 // // Assurez-vous que cette fonction est appelée lorsque le bouton est cliqué

@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap');
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -15,18 +15,18 @@ body {
   width: 100vw;
   height: 100vh;
   background: #7F7FD5;
-    /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
-.logo-cd33{
+.logo-cd33 {
   max-width: 350px;
 }
 
-.container{
+.container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -35,7 +35,7 @@ body {
   gap: 50px;
 }
 
-.titre-h2{
+.titre-h2 {
   max-width: 350px;
   text-align: center;
   font-size: 50px;
@@ -44,7 +44,7 @@ body {
   margin-bottom: 30px;
 }
 
-.cd33{
+.cd33 {
   text-align: center;
   font-size: 25px;
   background-color: #000;
@@ -54,7 +54,7 @@ body {
   margin: 0 auto;
 }
 
-.form{
+.form {
   padding: 20px;
   background-color: #eee;
   border: 1px solid #000;
@@ -62,22 +62,22 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 20px ;
+  gap: 20px;
 }
 
-.label{
+.label {
   font-size: small;
   font-weight: 600;
 }
 
-.input{
+.input {
   align-items: end;
   width: 200px;
   height: 25px;
   padding: 10px 5px;
 }
 
-.btn{
+.btn {
   padding: 5px 10px;
   font-size: 14px;
   font-weight: 500;
@@ -93,6 +93,6 @@ body {
   border: 1px solid #666;
 }
 
-.btn-connexion{
+.btn-connexion {
   align-self: center;
 }
